@@ -44,9 +44,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .form-group textarea{resize:none}
 .auth-btn{width:100%;background:var(--accent);color:#08090b;border:none;padding:12px;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-top:.5rem}
 .auth-btn:hover{background:#e8ff80;transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,255,74,.3)}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .auth-err{font-size:.78rem;color:var(--accent3);margin-top:.5rem;text-align:center;display:none}
 .auth-ok{font-size:.78rem;color:var(--accent2);margin-top:.5rem;text-align:center;display:none}
 .contact-or{text-align:center;color:var(--muted);font-size:.75rem;margin:.4rem 0;letter-spacing:.5px}
+.auth-loading{font-size:.78rem;color:var(--muted2);text-align:center;margin-top:.5rem;display:none}
 
 .app{display:none}
 nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:rgba(8,9,11,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
@@ -59,9 +61,7 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .nav-user{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);padding:6px 12px;border-radius:99px;font-size:.8rem}
 .nav-avatar{width:24px;height:24px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#08090b;flex-shrink:0}
 .nav-username{color:var(--accent2);font-weight:600}
-
 .price-strip{background:var(--accent);color:#08090b;text-align:center;padding:.6rem 2rem;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px}
-
 .hero{padding:3.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden}
 .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(212,255,74,.08) 0%,transparent 70%);pointer-events:none}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(212,255,74,.08);border:1px solid rgba(212,255,74,.2);color:var(--accent);padding:5px 14px;border-radius:99px;font-size:.75rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.25rem}
@@ -73,7 +73,6 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .badge.g{border-color:rgba(212,255,74,.3);color:var(--accent);background:rgba(212,255,74,.05)}
 .badge.b{border-color:rgba(74,255,180,.3);color:var(--accent2);background:rgba(74,255,180,.05)}
 .badge.y{border-color:rgba(255,184,74,.3);color:#ffb84a;background:rgba(255,184,74,.05)}
-
 .version-tabs{display:flex;gap:12px;justify-content:center;padding:1.25rem 2rem .5rem;max-width:600px;margin:0 auto}
 .ver-tab{flex:1;background:var(--surface);border:2px solid var(--border);border-radius:var(--r);padding:1rem;cursor:pointer;transition:all .2s;text-align:center}
 .ver-tab:hover{border-color:var(--border2);background:var(--surface2)}
@@ -86,14 +85,11 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .ver-tab.active.v16 .ver-price{color:var(--accent)}
 .ver-tab.active.v18 .ver-price{color:#ffb84a}
 .ver-tab .ver-sub{font-size:.72rem;color:var(--muted2);margin-top:2px}
-
 .filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:1.25rem 2rem;justify-content:center}
 .filter-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);padding:7px 18px;border-radius:99px;font-family:'Bricolage Grotesque',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
 .filter-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
 .filter-btn.active{background:var(--accent);color:#08090b;border-color:var(--accent);font-weight:700}
-
 .catalogue{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.1rem;padding:.5rem 2rem 3rem;max-width:1200px;margin:0 auto}
-
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:all .3s cubic-bezier(.34,1.56,.64,1);cursor:pointer;animation:fadeInUp .4s ease both}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .card:hover{border-color:rgba(212,255,74,.3);transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.4)}
@@ -124,7 +120,6 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .add-btn{background:var(--surface3);border:1px solid var(--border2);color:var(--text);padding:7px 16px;border-radius:99px;font-family:'Bricolage Grotesque',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1);flex-shrink:0}
 .add-btn:hover{background:var(--accent);color:#08090b;border-color:var(--accent);transform:scale(1.05)}
 .add-btn.btn18:hover{background:#ffb84a;border-color:#ffb84a}
-
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:500;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
 .cart-panel{background:var(--surface);border:1px solid var(--border2);border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:1.75rem;max-height:82vh;overflow-y:auto;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1)}
@@ -148,7 +143,6 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .total-amount{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--accent)}
 .checkout-btn{width:100%;margin-top:.9rem;background:var(--accent);color:#08090b;border:none;padding:14px;border-radius:14px;font-family:'Bebas Neue',sans-serif;letter-spacing:3px;font-size:1rem;cursor:pointer;transition:all .2s}
 .checkout-btn:hover{background:#e8ff80;transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,255,74,.3)}
-
 .order-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:600;align-items:center;justify-content:center;padding:1rem}
 .order-modal.open{display:flex}
 .order-panel{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2rem;width:100%;max-width:460px;animation:scaleIn .3s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
@@ -173,7 +167,6 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .success-emoji{font-size:3.5rem;margin-bottom:.75rem;display:block}
 .success-msg h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;color:var(--accent);margin-bottom:.5rem}
 .success-msg p{font-size:.83rem;color:var(--muted2);line-height:1.6}
-
 .pickup-section{max-width:1200px;margin:0 auto 3rem;padding:0 2rem}
 .section-label{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:4px;color:var(--muted2);text-align:center;margin-bottom:1rem;text-transform:uppercase}
 .pickup-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
@@ -207,7 +200,8 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
     <div id="loginForm">
       <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="ton@email.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="auth-btn" onclick="doLogin()">ENTRER</button>
+      <button class="auth-btn" id="loginBtn" onclick="doLogin()">ENTRER</button>
+      <div class="auth-loading" id="loginLoading">⏳ Connexion…</div>
       <div class="auth-err" id="loginErr">❌ Email ou mot de passe incorrect</div>
     </div>
     <div id="registerForm" style="display:none">
@@ -217,7 +211,8 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
       <div class="contact-or">— OU —</div>
       <div class="form-group"><label>👻 Snapchat</label><input type="text" id="regSnap" placeholder="Ton pseudo Snap"></div>
       <div class="form-group"><label>Mot de passe</label><input type="password" id="regPwd" placeholder="Min 6 caractères"></div>
-      <button class="auth-btn" onclick="doRegister()">CRÉER MON COMPTE</button>
+      <button class="auth-btn" id="regBtn" onclick="doRegister()">CRÉER MON COMPTE</button>
+      <div class="auth-loading" id="regLoading">⏳ Création…</div>
       <div class="auth-err" id="regErr"></div>
       <div class="auth-ok" id="regOk">✅ Compte créé ! Tu peux te connecter.</div>
     </div>
@@ -226,9 +221,7 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
 
 <!-- APP -->
 <div class="app" id="app">
-  <div class="price-strip">
-    🔥 PUFF 16K = <strong>8€</strong> &nbsp;|&nbsp; PUFF 18K = <strong>10€</strong> &nbsp;·&nbsp; RETRAIT MAIN PROPRE 27400 · 76410 🔥
-  </div>
+  <div class="price-strip">🔥 PUFF 16K = <strong>8€</strong> &nbsp;|&nbsp; PUFF 18K = <strong>10€</strong> &nbsp;·&nbsp; RETRAIT MAIN PROPRE 27400 · 76410 🔥</div>
   <nav>
     <div class="nav-logo">Puff<span>Shop</span></div>
     <div class="nav-center">
@@ -245,7 +238,6 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
       </div>
     </div>
   </nav>
-
   <section class="hero">
     <div class="hero-glow"></div>
     <div class="hero-tag">⚡ Stock disponible maintenant</div>
@@ -259,20 +251,14 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
       <span class="badge">💰 Paiement à la remise</span>
     </div>
   </section>
-
   <div class="version-tabs">
     <div class="ver-tab active v16" id="tab16" onclick="selectVersion(16)">
-      <div class="ver-name">PUFF 16K</div>
-      <div class="ver-price">8€</div>
-      <div class="ver-sub">16 000 puffs</div>
+      <div class="ver-name">PUFF 16K</div><div class="ver-price">8€</div><div class="ver-sub">16 000 puffs</div>
     </div>
     <div class="ver-tab v18" id="tab18" onclick="selectVersion(18)">
-      <div class="ver-name">PUFF 18K</div>
-      <div class="ver-price">10€</div>
-      <div class="ver-sub">18 000 puffs</div>
+      <div class="ver-name">PUFF 18K</div><div class="ver-price">10€</div><div class="ver-sub">18 000 puffs</div>
     </div>
   </div>
-
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filterCat('tous',this)">Tous</button>
     <button class="filter-btn" onclick="filterCat('fruite',this)">🍓 Fruités</button>
@@ -281,7 +267,6 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
     <button class="filter-btn" onclick="filterCat('classique',this)">🍬 Classiques</button>
   </div>
   <div class="catalogue" id="catalogue"></div>
-
   <section class="pickup-section">
     <div class="section-label">Points de retrait</div>
     <div class="pickup-grid">
@@ -362,10 +347,12 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, doc, getDoc, setDoc, getDocs, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import {
+  getFirestore, collection, addDoc, doc, getDoc, setDoc, query, where,
+  getDocs, onSnapshot, updateDoc
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDC4nFlD5j1702nsKX9jLrcxpnAWWkqma4",
@@ -373,67 +360,74 @@ const firebaseConfig = {
   projectId: "admin-7fb42",
   storageBucket: "admin-7fb42.firebasestorage.app",
   messagingSenderId: "425373102642",
-  appId: "1:425373102642:web:32cbec5da8aab5b8d8022b",
-  measurementId: "G-9TPCPTN0R8"
+  appId: "1:425373102642:web:32cbec5da8aab5b8d8022b"
 };
-
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-// ─── DATA ───────────────────────────────────────────
+// ─── PRODUITS ───────────────────────────────────────────
 const FLAVORS=[
-  {id:1,  nom:"Strawberry Kiwi",           cat:"fruite",   grad:"linear-gradient(135deg,#ff6b9d,#e84393,#2ed573)",   emojis:"🍓🥝", icon:"🍓", desc:"Fraise fraîche et kiwi acidulé"},
-  {id:2,  nom:"Strawberry Watermelon Ice", cat:"glace",    grad:"linear-gradient(135deg,#ff4757,#ff6b9d,#74b9ff)",   emojis:"🍓🍉❄️",icon:"🍓", desc:"Fraise, pastèque et touche givrée"},
-  {id:3,  nom:"Strawberry Ice",            cat:"glace",    grad:"linear-gradient(135deg,#ff6b9d,#d63031,#74b9ff)",   emojis:"🍓❄️", icon:"🍓", desc:"Fraise intense, fin givrée"},
-  {id:4,  nom:"Strawberry Banana",         cat:"fruite",   grad:"linear-gradient(135deg,#ff6b9d,#f9ca24,#ff4757)",   emojis:"🍌🍓", icon:"🍌", desc:"Fraise douce et banane crémeuse"},
-  {id:5,  nom:"Watermelon Ice",            cat:"glace",    grad:"linear-gradient(135deg,#2ed573,#ff4757,#74b9ff)",   emojis:"🍉❄️", icon:"🍉", desc:"Pastèque sucrée, fraîcheur glacée"},
-  {id:6,  nom:"Watermelon Bubblegum",      cat:"classique",grad:"linear-gradient(135deg,#fd79a8,#2ed573,#e84393)",   emojis:"🍉🍬", icon:"🍬", desc:"Pastèque et chewing-gum sucré"},
-  {id:7,  nom:"Cherry Watermelon Freeze",  cat:"glace",    grad:"linear-gradient(135deg,#d63031,#2ed573,#74b9ff)",   emojis:"🍒🍉❄️",icon:"🍒", desc:"Cerise, pastèque, freeze intense"},
-  {id:8,  nom:"Cherry Berry",             cat:"fruite",   grad:"linear-gradient(135deg,#d63031,#e84393,#6c5ce7)",   emojis:"🍒🍓", icon:"🍒", desc:"Cerise et fruits rouges mélangés"},
-  {id:9,  nom:"Cherry Ice",               cat:"glace",    grad:"linear-gradient(135deg,#d63031,#ff6b9d,#74b9ff)",   emojis:"🍒❄️", icon:"🍒", desc:"Cerise acidulée, fin glacée"},
-  {id:10, nom:"Cool Mint",                cat:"glace",    grad:"linear-gradient(135deg,#00b894,#00cec9,#55efc4)",   emojis:"❄️🍃", icon:"🌿", desc:"Menthe glaciale ultra-fraîche"},
-  {id:11, nom:"Sour Apple Ice",           cat:"glace",    grad:"linear-gradient(135deg,#6ab04c,#badc58,#74b9ff)",   emojis:"❄️🍏", icon:"🍏", desc:"Pomme acidulée et fraîcheur givrée"},
-  {id:12, nom:"Banana Ice",               cat:"glace",    grad:"linear-gradient(135deg,#f9ca24,#fdcb6e,#74b9ff)",   emojis:"❄️🍌", icon:"🍌", desc:"Banane crémeuse et rafraîchissante"},
-  {id:13, nom:"Peach Ice",                cat:"glace",    grad:"linear-gradient(135deg,#fd9644,#e17055,#74b9ff)",   emojis:"❄️🍑", icon:"🍑", desc:"Pêche douce, touche givrée"},
-  {id:14, nom:"Lemon Lime Ice",           cat:"glace",    grad:"linear-gradient(135deg,#f9ca24,#6ab04c,#74b9ff)",   emojis:"❄️🍋", icon:"🍋", desc:"Citron et citron vert glacé"},
-  {id:15, nom:"Blueberry Raspberry",      cat:"berry",    grad:"linear-gradient(135deg,#6c5ce7,#e84393,#a29bfe)",   emojis:"🫐🍓", icon:"🫐", desc:"Myrtille et framboise acidulée"},
-  {id:16, nom:"Blueberry Raspberry Cherry",cat:"berry",   grad:"linear-gradient(135deg,#6c5ce7,#e84393,#d63031)",   emojis:"🫐🍒🍓",icon:"🫐", desc:"Trio myrtille, framboise, cerise"},
-  {id:17, nom:"Blueberry Kiwi",           cat:"berry",    grad:"linear-gradient(135deg,#6c5ce7,#2ed573,#00b894)",   emojis:"🫐🍌", icon:"🫐", desc:"Myrtille et kiwi tropical"},
-  {id:18, nom:"Mixed Berries",            cat:"berry",    grad:"linear-gradient(135deg,#6c5ce7,#e84393,#ff4757)",   emojis:"🫐🍇", icon:"🍇", desc:"Mélange de fruits rouges intense"},
-  {id:19, nom:"Mr. Blue",                 cat:"berry",    grad:"linear-gradient(135deg,#0984e3,#6c5ce7,#a29bfe)",   emojis:"🌈🫐", icon:"🫐", desc:"Myrtille mystérieuse et signature"},
-  {id:20, nom:"Berry Burst",              cat:"berry",    grad:"linear-gradient(135deg,#e84393,#6c5ce7,#d63031)",   emojis:"🌈🍓🫐",icon:"🍓", desc:"Explosion de fruits rouges & berries"},
-  {id:21, nom:"Skittles",                 cat:"classique",grad:"linear-gradient(135deg,#e84393,#f9ca24,#6c5ce7,#2ed573)",emojis:"🍬🌈",icon:"🍬", desc:"Bonbon fruité arc-en-ciel"},
-  {id:22, nom:"Cherry Cola",              cat:"classique",grad:"linear-gradient(135deg,#2d3436,#d63031,#636e72)",   emojis:"🥤🍒", icon:"🥤", desc:"Soda cola et cerise, combo classique"},
-  {id:23, nom:"Kiwi Watermelon Ice",      cat:"glace",    grad:"linear-gradient(135deg,#2ed573,#6ab04c,#74b9ff)",   emojis:"🥝🍉❄️",icon:"🥝", desc:"Kiwi, pastèque et fin givrée"},
-  {id:24, nom:"Passion Fruit Kiwi",       cat:"fruite",   grad:"linear-gradient(135deg,#f0932b,#6ab04c,#f9ca24)",   emojis:"🥝🍇", icon:"🥝", desc:"Fruit de la passion et kiwi exotique"},
-  {id:25, nom:"White Peach Razz",         cat:"fruite",   grad:"linear-gradient(135deg,#ffeaa7,#fd9644,#a29bfe)",   emojis:"🍑🫐", icon:"🍑", desc:"Pêche blanche et framboise sucrée"},
-  {id:26, nom:"Blue Razz Cherry",         cat:"berry",    grad:"linear-gradient(135deg,#0984e3,#6c5ce7,#d63031)",   emojis:"🍒🫐", icon:"🫐", desc:"Framboise bleue et cerise intense"},
-  {id:27, nom:"Triple Melon",             cat:"fruite",   grad:"linear-gradient(135deg,#2ed573,#f9ca24,#55efc4)",   emojis:"🍉🍈🍋",icon:"🍉", desc:"Trio melon, pastèque, melon miel"},
+  {id:1,nom:"Strawberry Kiwi",cat:"fruite",grad:"linear-gradient(135deg,#ff6b9d,#e84393,#2ed573)",emojis:"🍓🥝",icon:"🍓",desc:"Fraise fraîche et kiwi acidulé"},
+  {id:2,nom:"Strawberry Watermelon Ice",cat:"glace",grad:"linear-gradient(135deg,#ff4757,#ff6b9d,#74b9ff)",emojis:"🍓🍉❄️",icon:"🍓",desc:"Fraise, pastèque et touche givrée"},
+  {id:3,nom:"Strawberry Ice",cat:"glace",grad:"linear-gradient(135deg,#ff6b9d,#d63031,#74b9ff)",emojis:"🍓❄️",icon:"🍓",desc:"Fraise intense, fin givrée"},
+  {id:4,nom:"Strawberry Banana",cat:"fruite",grad:"linear-gradient(135deg,#ff6b9d,#f9ca24,#ff4757)",emojis:"🍌🍓",icon:"🍌",desc:"Fraise douce et banane crémeuse"},
+  {id:5,nom:"Watermelon Ice",cat:"glace",grad:"linear-gradient(135deg,#2ed573,#ff4757,#74b9ff)",emojis:"🍉❄️",icon:"🍉",desc:"Pastèque sucrée, fraîcheur glacée"},
+  {id:6,nom:"Watermelon Bubblegum",cat:"classique",grad:"linear-gradient(135deg,#fd79a8,#2ed573,#e84393)",emojis:"🍉🍬",icon:"🍬",desc:"Pastèque et chewing-gum sucré"},
+  {id:7,nom:"Cherry Watermelon Freeze",cat:"glace",grad:"linear-gradient(135deg,#d63031,#2ed573,#74b9ff)",emojis:"🍒🍉❄️",icon:"🍒",desc:"Cerise, pastèque, freeze intense"},
+  {id:8,nom:"Cherry Berry",cat:"fruite",grad:"linear-gradient(135deg,#d63031,#e84393,#6c5ce7)",emojis:"🍒🍓",icon:"🍒",desc:"Cerise et fruits rouges mélangés"},
+  {id:9,nom:"Cherry Ice",cat:"glace",grad:"linear-gradient(135deg,#d63031,#ff6b9d,#74b9ff)",emojis:"🍒❄️",icon:"🍒",desc:"Cerise acidulée, fin glacée"},
+  {id:10,nom:"Cool Mint",cat:"glace",grad:"linear-gradient(135deg,#00b894,#00cec9,#55efc4)",emojis:"❄️🍃",icon:"🌿",desc:"Menthe glaciale ultra-fraîche"},
+  {id:11,nom:"Sour Apple Ice",cat:"glace",grad:"linear-gradient(135deg,#6ab04c,#badc58,#74b9ff)",emojis:"❄️🍏",icon:"🍏",desc:"Pomme acidulée et fraîcheur givrée"},
+  {id:12,nom:"Banana Ice",cat:"glace",grad:"linear-gradient(135deg,#f9ca24,#fdcb6e,#74b9ff)",emojis:"❄️🍌",icon:"🍌",desc:"Banane crémeuse et rafraîchissante"},
+  {id:13,nom:"Peach Ice",cat:"glace",grad:"linear-gradient(135deg,#fd9644,#e17055,#74b9ff)",emojis:"❄️🍑",icon:"🍑",desc:"Pêche douce, touche givrée"},
+  {id:14,nom:"Lemon Lime Ice",cat:"glace",grad:"linear-gradient(135deg,#f9ca24,#6ab04c,#74b9ff)",emojis:"❄️🍋",icon:"🍋",desc:"Citron et citron vert glacé"},
+  {id:15,nom:"Blueberry Raspberry",cat:"berry",grad:"linear-gradient(135deg,#6c5ce7,#e84393,#a29bfe)",emojis:"🫐🍓",icon:"🫐",desc:"Myrtille et framboise acidulée"},
+  {id:16,nom:"Blueberry Raspberry Cherry",cat:"berry",grad:"linear-gradient(135deg,#6c5ce7,#e84393,#d63031)",emojis:"🫐🍒🍓",icon:"🫐",desc:"Trio myrtille, framboise, cerise"},
+  {id:17,nom:"Blueberry Kiwi",cat:"berry",grad:"linear-gradient(135deg,#6c5ce7,#2ed573,#00b894)",emojis:"🫐🍌",icon:"🫐",desc:"Myrtille et kiwi tropical"},
+  {id:18,nom:"Mixed Berries",cat:"berry",grad:"linear-gradient(135deg,#6c5ce7,#e84393,#ff4757)",emojis:"🫐🍇",icon:"🍇",desc:"Mélange de fruits rouges intense"},
+  {id:19,nom:"Mr. Blue",cat:"berry",grad:"linear-gradient(135deg,#0984e3,#6c5ce7,#a29bfe)",emojis:"🌈🫐",icon:"🫐",desc:"Myrtille mystérieuse et signature"},
+  {id:20,nom:"Berry Burst",cat:"berry",grad:"linear-gradient(135deg,#e84393,#6c5ce7,#d63031)",emojis:"🌈🍓🫐",icon:"🍓",desc:"Explosion de fruits rouges & berries"},
+  {id:21,nom:"Skittles",cat:"classique",grad:"linear-gradient(135deg,#e84393,#f9ca24,#6c5ce7,#2ed573)",emojis:"🍬🌈",icon:"🍬",desc:"Bonbon fruité arc-en-ciel"},
+  {id:22,nom:"Cherry Cola",cat:"classique",grad:"linear-gradient(135deg,#2d3436,#d63031,#636e72)",emojis:"🥤🍒",icon:"🥤",desc:"Soda cola et cerise, combo classique"},
+  {id:23,nom:"Kiwi Watermelon Ice",cat:"glace",grad:"linear-gradient(135deg,#2ed573,#6ab04c,#74b9ff)",emojis:"🥝🍉❄️",icon:"🥝",desc:"Kiwi, pastèque et fin givrée"},
+  {id:24,nom:"Passion Fruit Kiwi",cat:"fruite",grad:"linear-gradient(135deg,#f0932b,#6ab04c,#f9ca24)",emojis:"🥝🍇",icon:"🥝",desc:"Fruit de la passion et kiwi exotique"},
+  {id:25,nom:"White Peach Razz",cat:"fruite",grad:"linear-gradient(135deg,#ffeaa7,#fd9644,#a29bfe)",emojis:"🍑🫐",icon:"🍑",desc:"Pêche blanche et framboise sucrée"},
+  {id:26,nom:"Blue Razz Cherry",cat:"berry",grad:"linear-gradient(135deg,#0984e3,#6c5ce7,#d63031)",emojis:"🍒🫐",icon:"🫐",desc:"Framboise bleue et cerise intense"},
+  {id:27,nom:"Triple Melon",cat:"fruite",grad:"linear-gradient(135deg,#2ed573,#f9ca24,#55efc4)",emojis:"🍉🍈🍋",icon:"🍉",desc:"Trio melon, pastèque, melon miel"},
 ];
 const PRIX={16:8,18:10};
-let currentVersion=16, panier=[], currentFilter="tous", currentUser=null;
-let stockCache={};
+let currentVersion=16, panier=[], currentFilter="tous", currentUser=null, stockCache={};
 
-// ─── STOCK (Firestore) ─────────────────────────────
+// ─── USERS (Firestore) ────────────────────────────────
+// Collection "users" — document identifié par email (encodé)
+function emailToId(email){ return email.replace(/\./g,"_").replace(/@/g,"__at__"); }
+
+async function getUserByEmail(email){
+  try {
+    const snap = await getDoc(doc(db,"users", emailToId(email)));
+    return snap.exists() ? snap.data() : null;
+  } catch(e){ return null; }
+}
+
+async function createUser(data){
+  await setDoc(doc(db,"users", emailToId(data.email)), data);
+}
+
+// ─── STOCK ────────────────────────────────────────────
 async function getStock(){
   try {
     const snap = await getDoc(doc(db,"config","stock"));
     if(snap.exists()) stockCache = snap.data();
     else stockCache = {};
-  } catch(e){ console.warn("Stock fetch error",e); }
+  } catch(e){}
   return stockCache;
 }
-
 async function updateStock(changes){
   try {
-    await setDoc(doc(db,"config","stock"), {...stockCache,...changes}, {merge:true});
+    await setDoc(doc(db,"config","stock"),{...stockCache,...changes},{merge:true});
     stockCache = {...stockCache,...changes};
-  } catch(e){ console.warn("Stock update error",e); }
+  } catch(e){}
 }
-
-// ─── USERS (localStorage fallback) ────────────────
-function getUsers(){return JSON.parse(localStorage.getItem("ps_users")||"[]")}
-function saveUsers(u){localStorage.setItem("ps_users",JSON.stringify(u))}
 
 // ─── AUTH ──────────────────────────────────────────
 window.switchTab = function(t){
@@ -443,18 +437,28 @@ window.switchTab = function(t){
   document.getElementById("registerForm").style.display=t==="register"?"block":"none";
 };
 
-window.doLogin = function(){
+window.doLogin = async function(){
   const email=document.getElementById("loginEmail").value.trim().toLowerCase();
   const pwd=document.getElementById("loginPwd").value;
-  const user=getUsers().find(u=>u.email===email&&u.pwd===pwd);
-  if(!user){document.getElementById("loginErr").style.display="block";return}
+  const btn=document.getElementById("loginBtn");
+  btn.disabled=true;
+  document.getElementById("loginLoading").style.display="block";
   document.getElementById("loginErr").style.display="none";
+
+  const user = await getUserByEmail(email);
+  btn.disabled=false;
+  document.getElementById("loginLoading").style.display="none";
+
+  if(!user || user.pwd !== pwd){
+    document.getElementById("loginErr").style.display="block";
+    return;
+  }
   currentUser=user;
-  localStorage.setItem("ps_session",JSON.stringify(user));
+  localStorage.setItem("ps_session", JSON.stringify(user));
   launchApp();
 };
 
-window.doRegister = function(){
+window.doRegister = async function(){
   const prenom=document.getElementById("regPrenom").value.trim();
   const email=document.getElementById("regEmail").value.trim().toLowerCase();
   const phone=document.getElementById("regPhone").value.trim();
@@ -462,24 +466,42 @@ window.doRegister = function(){
   const pwd=document.getElementById("regPwd").value;
   const errEl=document.getElementById("regErr");
   const okEl=document.getElementById("regOk");
-  errEl.style.display="none";okEl.style.display="none";
+  const btn=document.getElementById("regBtn");
+  errEl.style.display="none"; okEl.style.display="none";
+
   if(!prenom||!email||!pwd){errEl.textContent="Remplis les champs obligatoires !";errEl.style.display="block";return}
   if(!phone&&!snap){errEl.textContent="Téléphone OU Snapchat obligatoire !";errEl.style.display="block";return}
   if(pwd.length<6){errEl.textContent="Mot de passe trop court (min 6 car.)";errEl.style.display="block";return}
-  const users=getUsers();
-  if(users.find(u=>u.email===email)){errEl.textContent="Email déjà utilisé !";errEl.style.display="block";return}
-  users.push({prenom,email,phone,snap,pwd});
-  saveUsers(users);
-  okEl.style.display="block";
-  setTimeout(()=>window.switchTab("login"),1600);
+
+  btn.disabled=true;
+  document.getElementById("regLoading").style.display="block";
+
+  const existing = await getUserByEmail(email);
+  if(existing){
+    btn.disabled=false;
+    document.getElementById("regLoading").style.display="none";
+    errEl.textContent="Email déjà utilisé !"; errEl.style.display="block"; return;
+  }
+
+  try {
+    await createUser({prenom,email,phone,snap,pwd});
+    btn.disabled=false;
+    document.getElementById("regLoading").style.display="none";
+    okEl.style.display="block";
+    setTimeout(()=>window.switchTab("login"),1600);
+  } catch(e){
+    btn.disabled=false;
+    document.getElementById("regLoading").style.display="none";
+    errEl.textContent="❌ Erreur réseau, réessaie."; errEl.style.display="block";
+  }
 };
 
 window.doLogout = function(){
-  currentUser=null;localStorage.removeItem("ps_session");
+  currentUser=null; localStorage.removeItem("ps_session");
   document.getElementById("app").style.display="none";
   document.getElementById("taskbar").style.display="none";
   document.getElementById("authScreen").style.display="flex";
-  panier=[];updateCount();
+  panier=[]; updateCount();
 };
 
 async function launchApp(){
@@ -489,10 +511,9 @@ async function launchApp(){
   document.getElementById("navAvatar").textContent=currentUser.prenom.slice(0,1).toUpperCase();
   document.getElementById("navUser").textContent=currentUser.prenom;
   if(currentUser.phone) document.getElementById("orderPhone").value=currentUser.phone;
-  if(currentUser.snap) document.getElementById("orderSnap").value=currentUser.snap;
+  if(currentUser.snap)  document.getElementById("orderSnap").value=currentUser.snap;
   await getStock();
   renderCatalogue();
-  // écoute les changements de stock en temps réel
   onSnapshot(doc(db,"config","stock"),(snap)=>{
     if(snap.exists()){stockCache=snap.data();renderCatalogue();}
   });
@@ -519,13 +540,11 @@ function stockLabel(qty){
   if(qty<=5)return{cls:"stock-low",txt:qty+" restant"+(qty>1?"s":"")};
   return{cls:"stock-ok",txt:"En stock"};
 }
-
 function getFlavorStock(nom){
-  // Admin gère actif/inactif via boolean, ou on utilise une valeur numérique
-  const v = stockCache[nom];
-  if(v===false) return 0;
-  if(v===undefined || v===true) return 50;
-  return typeof v==='number' ? v : 50;
+  const v=stockCache[nom];
+  if(v===false)return 0;
+  if(v===undefined||v===true)return 50;
+  return typeof v==="number"?v:50;
 }
 
 function renderCatalogue(){
@@ -637,15 +656,13 @@ window.confirmOrder = async function(){
   if(!phone&&!snap){showToast("⚠️ Téléphone ou Snap obligatoire !","warn");return}
 
   const btn=document.getElementById("confirmBtn");
-  btn.disabled=true;
-  btn.textContent="⏳ Envoi...";
+  btn.disabled=true; btn.textContent="⏳ Envoi...";
 
   try {
-    // Mise à jour stock Firestore
     const stockChanges={};
     panier.forEach(item=>{
       const current=getFlavorStock(item.nom);
-      if(typeof stockCache[item.nom]==='number'){
+      if(typeof stockCache[item.nom]==="number"){
         stockChanges[item.nom]=Math.max(0,current-item.qty);
       }
     });
@@ -654,7 +671,6 @@ window.confirmOrder = async function(){
     const total=panier.reduce((s,x)=>s+x.qty*x.prix,0);
     const nb=panier.reduce((s,x)=>s+x.qty,0);
 
-    // Sauvegarde commande dans Firestore
     await addDoc(collection(db,"orders"),{
       date: new Date().toLocaleString("fr-FR"),
       timestamp: Date.now(),
@@ -662,10 +678,8 @@ window.confirmOrder = async function(){
       phone: phone||currentUser.phone||"",
       snap: snap||currentUser.snap||"",
       email: currentUser.email,
-      zone,
-      items: panier.map(i=>({nom:i.nom,version:i.version,icon:i.icon,qty:i.qty,prix:i.prix,total:i.qty*i.prix})),
-      total,
-      nb,
+      zone, items: panier.map(i=>({nom:i.nom,version:i.version,icon:i.icon,qty:i.qty,prix:i.prix,total:i.qty*i.prix})),
+      total, nb,
       msg: document.getElementById("clientMsg").value.trim(),
       status: "nouveau"
     });
@@ -677,8 +691,7 @@ window.confirmOrder = async function(){
   } catch(e){
     console.error(e);
     showToast("❌ Erreur réseau, réessaie !","warn");
-    btn.disabled=false;
-    btn.textContent="CONFIRMER ✓";
+    btn.disabled=false; btn.textContent="CONFIRMER ✓";
   }
 };
 
