@@ -15,7 +15,7 @@
   --warn:#ffb84a;--text:#eceef5;--muted:#454860;--muted2:#7a7f9a;
   --r:16px;--taskbar-h:64px;
 }
-body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;min-height:100vh;padding-bottom:calc(var(--taskbar-h) + 16px);}
+body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;min-height:100vh;padding-bottom:calc(var(--taskbar-h)+16px);}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.3;}
 
 /* TASKBAR */
@@ -62,10 +62,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 /* DASHBOARD */
 .dashboard{display:none;min-height:100vh}
 .main{padding:2rem;max-width:1400px;margin:0 auto}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(7,8,10,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(7,8,10,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px;}
 .topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:4px;color:var(--accent);}
 .topbar-logo span{color:var(--text)}
-.topbar-right{display:flex;align-items:center;gap:10px}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .topbar-tag{background:rgba(212,255,74,.08);border:1px solid rgba(212,255,74,.2);color:var(--accent);font-size:.7rem;font-weight:700;padding:5px 12px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;}
 .topbar-badge{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-size:.75rem;padding:5px 12px;border-radius:99px;}
 .page-header{margin-bottom:1.75rem}
@@ -95,8 +95,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .flt-refresh:hover{background:var(--surface3);color:var(--text)}
 .flt-danger{background:rgba(255,74,122,.1);color:var(--accent3);border-color:rgba(255,74,122,.3);}
 .flt-danger:hover{background:var(--accent3);color:#fff;border-color:var(--accent3);}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
-.orders-table{width:100%;border-collapse:collapse}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;overflow-x:auto;}
+.orders-table{width:100%;border-collapse:collapse;min-width:900px;}
 .orders-table th{font-size:.68rem;color:var(--muted2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:700;text-transform:uppercase;letter-spacing:.8px;background:var(--surface2);font-family:'DM Mono',monospace;}
 .orders-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:.84rem;vertical-align:middle;}
 .orders-table tr:last-child td{border-bottom:none}
@@ -123,6 +123,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .act-btn:hover.eye{background:rgba(74,160,255,.15);border-color:var(--accent4);color:var(--accent4)}
 .act-btn:hover.del{background:rgba(255,74,122,.15);border-color:var(--accent3);color:var(--accent3)}
 .act-btn:hover.ban-act{background:rgba(255,74,122,.2);border-color:var(--accent3);color:var(--accent3)}
+/* identifiant = email, pas IP */
+.email-tag{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);background:var(--surface3);padding:2px 7px;border-radius:5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;padding:1rem;}
@@ -159,7 +161,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .empty-icon{font-size:3rem;margin-bottom:1rem}
 .empty-text{font-size:.88rem}
 .flavor-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.flavor-bar-name{font-size:.82rem;color:var(--text);width:200px;flex-shrink:0;font-weight:500}
+.flavor-bar-name{font-size:.82rem;color:var(--text);width:220px;flex-shrink:0;font-weight:500}
 .flavor-bar-track{flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden}
 .flavor-bar-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .8s cubic-bezier(.4,0,.2,1)}
 .flavor-bar-qty{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--accent);width:30px;text-align:right;font-weight:700;}
@@ -177,20 +179,20 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .stock-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#07080a;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
 .stock-toggle.on::after{transform:translateX(16px)}
 
-/* BAN PAGE */
+/* BAN PAGE — maintenant "ban email" */
 .ban-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;}
 .ban-card{background:var(--surface);border:1px solid rgba(255,74,122,.2);border-radius:var(--r);padding:1.1rem;display:flex;align-items:center;gap:12px;transition:all .2s;}
 .ban-card:hover{background:var(--surface2)}
-.ban-ip{font-family:'DM Mono',monospace;font-size:.9rem;color:var(--accent3);font-weight:700;}
+.ban-ip{font-family:'DM Mono',monospace;font-size:.82rem;color:var(--accent3);font-weight:700;word-break:break-all;}
 .ban-type{font-size:.72rem;color:var(--muted2);margin-top:2px}
 .ban-remain{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--warn);margin-top:2px}
-.ban-actions{margin-left:auto;display:flex;gap:6px}
+.ban-actions{margin-left:auto;display:flex;gap:6px;flex-shrink:0}
 .unban-btn{padding:6px 12px;border-radius:8px;border:1px solid rgba(74,255,180,.3);background:rgba(74,255,180,.08);color:var(--accent2);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Bricolage Grotesque',sans-serif;}
 .unban-btn:hover{background:var(--accent2);color:#07080a;border-color:var(--accent2)}
 .ban-form-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;margin-bottom:2rem;}
 .ban-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--accent3);margin-bottom:1rem;}
 .ban-form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.ban-input{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'DM Mono',monospace;font-size:.85rem;outline:none;transition:all .2s;flex:1;min-width:160px;}
+.ban-input{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'DM Mono',monospace;font-size:.85rem;outline:none;transition:all .2s;flex:1;min-width:200px;}
 .ban-input:focus{border-color:var(--accent3);box-shadow:0 0 0 3px rgba(255,74,122,.1)}
 .ban-select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.85rem;outline:none;cursor:pointer;transition:all .2s;}
 .ban-select:focus{border-color:var(--accent3)}
@@ -235,10 +237,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .confirm-no:hover{color:var(--text);border-color:var(--border2)}
 .confirm-yes{flex:1;padding:10px;border-radius:12px;background:var(--accent3);border:none;color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.9rem;cursor:pointer;transition:all .2s;}
 .confirm-yes:hover{filter:brightness(1.15);transform:translateY(-1px);}
-
-/* SNAP LINK */
-.snap-link{color:var(--accent4);font-size:.76rem;}
-.ip-tag{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);background:var(--surface3);padding:2px 7px;border-radius:5px;}
 
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:99px}
 </style>
@@ -323,7 +321,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="topbar-right">
       <div class="topbar-tag">⚡ Admin</div>
       <div class="topbar-badge" id="syncBadge">🔄 Firestore</div>
-      <div class="topbar-badge" id="keyHint" style="font-size:.7rem;color:var(--muted)">🗑 Suppr = reset</div>
+      <div class="topbar-badge" style="font-size:.7rem;color:var(--muted)">🗑 Suppr = reset (hors saisie)</div>
     </div>
   </div>
   <div class="main">
@@ -332,7 +330,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div id="page-commandes">
       <div class="page-header">
         <div class="page-title">COMMANDES</div>
-        <div class="page-sub">Synchronisées Firestore en temps réel · Touche <kbd style="background:var(--surface3);padding:2px 6px;border-radius:5px;font-family:'DM Mono',monospace;font-size:.8rem">Suppr</kbd> pour tout remettre à zéro</div>
+        <div class="page-sub">Synchronisées Firestore en temps réel · <kbd style="background:var(--surface3);padding:2px 6px;border-radius:5px;font-family:'DM Mono',monospace;font-size:.8rem">Suppr</kbd> (hors champ de texte) pour tout remettre à zéro</div>
       </div>
       <div class="filters-row">
         <select class="flt-select" id="statusFilter" onchange="renderOrders()">
@@ -347,7 +345,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
           <option value="27400">📍 27400 Louviers</option>
           <option value="76410">📍 76410 Le Tître</option>
         </select>
-        <input class="flt-search" id="searchInput" placeholder="🔍 Nom, téléphone…" oninput="renderOrders()">
+        <input class="flt-search" id="searchInput" placeholder="🔍 Nom, email, téléphone…" oninput="renderOrders()">
         <button class="flt-btn flt-refresh" onclick="loadOrders()">🔄 Actualiser</button>
         <button class="flt-btn flt-danger" onclick="askDeleteAll()">🗑 Tout supprimer</button>
       </div>
@@ -364,7 +362,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
         <div class="page-sub">Aperçu des ventes</div>
       </div>
       <div class="stats-grid" id="statsGrid"></div>
-      <div class="section-title" style="margin-bottom:1rem">GOÛTS LES PLUS COMMANDÉS</div>
+      <div class="section-title" style="margin-bottom:1rem">ARTICLES LES PLUS COMMANDÉS</div>
       <div id="flavorsChart" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem"></div>
       <div class="danger-zone">
         <div class="danger-zone-title">⚠️ ZONE DANGEREUSE</div>
@@ -386,18 +384,16 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <div class="stock-grid" id="stockGrid"></div>
     </div>
 
-    <!-- BANS -->
+    <!-- BANS (maintenant ban par email) -->
     <div id="page-bans" style="display:none">
       <div class="page-header">
-        <div class="page-title">BAN IP</div>
-        <div class="page-sub">Bannir / débannir des adresses IP · Les clients bannis voient un écran de ban avec chrono</div>
+        <div class="page-title">BAN COMPTE</div>
+        <div class="page-sub">Bannir / débannir des comptes par email · Les clients bannis ne peuvent plus se connecter</div>
       </div>
-
-      <!-- FORM BAN -->
       <div class="ban-form-box">
-        <div class="ban-form-title">🚫 BANNIR UNE IP</div>
+        <div class="ban-form-title">🚫 BANNIR UN COMPTE</div>
         <div class="ban-form-row">
-          <input class="ban-input" type="text" id="banIpInput" placeholder="Ex: 192.168.1.1">
+          <input class="ban-input" type="email" id="banEmailInput" placeholder="Ex: client@email.com">
           <select class="ban-select" id="banDurSelect">
             <option value="1h">1 heure</option>
             <option value="6h">6 heures</option>
@@ -407,14 +403,12 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
             <option value="30d">30 jours</option>
             <option value="permanent">🔒 Permanent</option>
           </select>
-          <button class="btn-ban" onclick="doBanIP()">🚫 BANNIR</button>
+          <button class="btn-ban" onclick="doBanEmail()">🚫 BANNIR</button>
         </div>
       </div>
-
-      <!-- LISTE BANS -->
-      <div class="section-title" style="margin-bottom:1rem">IPs BANNIES <span class="count-pill" id="bansCount">0</span></div>
+      <div class="section-title" style="margin-bottom:1rem">COMPTES BANNIS <span class="count-pill" id="bansCount">0</span></div>
       <div class="ban-grid" id="banGrid">
-        <div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucune IP bannie</div></div>
+        <div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte banni</div></div>
       </div>
     </div>
 
@@ -472,7 +466,7 @@ const firebaseConfig = {
   appId: "1:425373102642:web:32cbec5da8aab5b8d8022b"
 };
 const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const db = getFirestore(app);
 
 const FLAVORS_LIST=["Strawberry Kiwi","Strawberry Watermelon Ice","Strawberry Ice","Strawberry Banana","Watermelon Ice","Watermelon Bubblegum","Cherry Watermelon Freeze","Cherry Berry","Cherry Ice","Cool Mint","Sour Apple Ice","Banana Ice","Peach Ice","Lemon Lime Ice","Blueberry Raspberry","Blueberry Raspberry Cherry","Blueberry Kiwi","Mixed Berries","Mr. Blue","Berry Burst","Skittles","Cherry Cola","Kiwi Watermelon Ice","Passion Fruit Kiwi","White Peach Razz","Blue Razz Cherry","Triple Melon"];
 const ICONS={"Strawberry Kiwi":"🍓","Strawberry Watermelon Ice":"🍓","Strawberry Ice":"🍓","Strawberry Banana":"🍌","Watermelon Ice":"🍉","Watermelon Bubblegum":"🍬","Cherry Watermelon Freeze":"🍒","Cherry Berry":"🍒","Cherry Ice":"🍒","Cool Mint":"🌿","Sour Apple Ice":"🍏","Banana Ice":"🍌","Peach Ice":"🍑","Lemon Lime Ice":"🍋","Blueberry Raspberry":"🫐","Blueberry Raspberry Cherry":"🫐","Blueberry Kiwi":"🫐","Mixed Berries":"🍇","Mr. Blue":"🫐","Berry Burst":"🍓","Skittles":"🍬","Cherry Cola":"🥤","Kiwi Watermelon Ice":"🥝","Passion Fruit Kiwi":"🥝","White Peach Razz":"🍑","Blue Razz Cherry":"🫐","Triple Melon":"🍉"};
@@ -485,84 +479,79 @@ let knownOrderIds = null;
 let isFirstLoad = true;
 let newOrderIds = new Set();
 
-// ── BAN DURATION PARSER ──
+// ── DURÉE BAN ──
 function parseDuration(val){
-  if(val==="permanent") return null; // null = permanent
-  const map = {"1h":3600000,"6h":21600000,"24h":86400000,"3d":259200000,"7d":604800000,"30d":2592000000};
-  return map[val] || 3600000;
+  if(val==="permanent")return null;
+  const map={"1h":3600000,"6h":21600000,"24h":86400000,"3d":259200000,"7d":604800000,"30d":2592000000};
+  return map[val]||3600000;
 }
 function formatRemaining(until){
-  const rem = until - Date.now();
-  if(rem<=0) return "Expiré";
+  const rem=until-Date.now();
+  if(rem<=0)return"Expiré";
   const h=Math.floor(rem/3600000);
   const m=Math.floor((rem%3600000)/60000);
-  if(h>24){const d=Math.floor(h/24);return d+"j "+h%24+"h";} 
+  if(h>24){const d=Math.floor(h/24);return d+"j "+h%24+"h";}
   return h+"h "+m+"min";
 }
-function ipToDocId(ip){ return ip.replace(/\./g,"_"); }
+// Utilise l'email comme clé (remplace les . et @ pour doc ID Firestore)
+function emailToDocId(email){ return email.replace(/\./g,"_").replace(/@/g,"__at__"); }
 
-// ── BAN FUNCTIONS ──
-window.doBanIP = async function(){
-  const ip = document.getElementById("banIpInput").value.trim();
-  const dur = document.getElementById("banDurSelect").value;
-  if(!ip){alert("Saisir une IP !"); return;}
-  const isPermanent = dur === "permanent";
-  const durMs = parseDuration(dur);
-  const until = isPermanent ? 9999999999999 : Date.now() + durMs;
-  try {
-    await setDoc(doc(db,"bans", ipToDocId(ip)), {
-      ip, permanent: isPermanent, until, bannedAt: Date.now()
-    });
-    document.getElementById("banIpInput").value="";
+// ── BAN PAR EMAIL ──
+window.doBanEmail=async function(){
+  const email=document.getElementById("banEmailInput").value.trim().toLowerCase();
+  const dur=document.getElementById("banDurSelect").value;
+  if(!email){alert("Saisir un email !");return;}
+  const isPermanent=dur==="permanent";
+  const durMs=parseDuration(dur);
+  const until=isPermanent?9999999999999:Date.now()+durMs;
+  try{
+    await setDoc(doc(db,"bans",emailToDocId(email)),{email,permanent:isPermanent,until,bannedAt:Date.now()});
+    document.getElementById("banEmailInput").value="";
     loadBans();
-  } catch(e){ alert("Erreur : "+e.message); }
+  }catch(e){alert("Erreur : "+e.message);}
 };
 
-window.doUnbanIP = function(ip){
-  openConfirm("✅","DÉBANNIR ?",`Débannir l'IP <strong style="color:var(--accent4)">${ip}</strong> ?`, async ()=>{
-    try{
-      await deleteDoc(doc(db,"bans", ipToDocId(ip)));
-      loadBans();
-    }catch(e){alert("Erreur : "+e.message);}
+window.doUnbanEmail=function(email){
+  openConfirm("✅","DÉBANNIR ?",`Débannir le compte <strong style="color:var(--accent4)">${email}</strong> ?`,async()=>{
+    try{await deleteDoc(doc(db,"bans",emailToDocId(email)));loadBans();}catch(e){alert("Erreur : "+e.message);}
   });
 };
 
-window.loadBans = async function(){
-  try {
-    const snap = await getDocs(collection(db,"bans"));
-    bansCache = [];
-    snap.forEach(d => bansCache.push(d.data()));
+window.loadBans=async function(){
+  try{
+    const snap=await getDocs(collection(db,"bans"));
+    bansCache=[];snap.forEach(d=>bansCache.push(d.data()));
     renderBans();
-  } catch(e){ console.error(e); }
+  }catch(e){console.error(e);}
 };
 
 function renderBans(){
-  document.getElementById("bansCount").textContent = bansCache.length;
+  document.getElementById("bansCount").textContent=bansCache.length;
   if(!bansCache.length){
-    document.getElementById("banGrid").innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucune IP bannie</div></div>`;
+    document.getElementById("banGrid").innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte banni</div></div>`;
     return;
   }
-  document.getElementById("banGrid").innerHTML = bansCache.map(b=>`
+  document.getElementById("banGrid").innerHTML=bansCache.map(b=>`
     <div class="ban-card">
-      <div style="flex:1">
-        <div class="ban-ip">🚫 ${b.ip}</div>
+      <div style="flex:1;min-width:0">
+        <div class="ban-ip">🚫 ${b.email||b.ip||"—"}</div>
         <div class="ban-type">${b.permanent?"🔒 Permanent":"⏳ Temporaire"}</div>
         <div class="ban-remain">${b.permanent?"—":formatRemaining(b.until)}</div>
       </div>
       <div class="ban-actions">
-        <button class="unban-btn" onclick="doUnbanIP('${b.ip}')">✅ Débannir</button>
+        <button class="unban-btn" onclick="doUnbanEmail('${(b.email||b.ip||"").replace(/'/g,"\\'")}')">✅ Débannir</button>
       </div>
     </div>`).join("");
 }
 
-// ── BAN FROM ORDER ──
-window.banFromOrder = function(ip, name){
-  if(!ip||ip==="unknown"){alert("IP inconnue pour cette commande.");return;}
-  document.getElementById("banIpInput").value=ip;
-  showPage("bans", document.getElementById("tb-bans"));
+// ── BAN DEPUIS UNE COMMANDE (par email du client) ──
+window.banFromOrder=function(email,name){
+  if(!email||email==="unknown"){alert("Email inconnu pour cette commande.");return;}
+  document.getElementById("banEmailInput").value=email;
+  showPage("bans",document.getElementById("tb-bans"));
 };
 
-// ── SON NOTIFICATION ──
+// ── NOTIFICATION ──
 function playNotifSound(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
@@ -570,7 +559,6 @@ function playNotifSound(){
     play(880,0,0.12,"sine",0.25);play(1100,0.1,0.12,"sine",0.25);play(1320,0.22,0.2,"sine",0.3);play(1760,0.35,0.3,"sine",0.2);
   }catch(e){}
 }
-
 let notifTimer=null;
 function showNewOrderNotif(order){
   playNotifSound();
@@ -588,8 +576,8 @@ function showNewOrderNotif(order){
   notifTimer=setTimeout(()=>{card.classList.remove("show");card.classList.add("hide");setTimeout(()=>card.classList.remove("hide"),400);},5000);
 }
 
-// ── CHARGER COMMANDES ──
-window.loadOrders = async function(){
+// ── COMMANDES ──
+window.loadOrders=async function(){
   document.getElementById("syncBadge").textContent="🔄 Chargement…";
   try{
     const snap=await getDocs(collection(db,"orders"));
@@ -631,31 +619,33 @@ function startRealtimeOrders(){
   });
 }
 
-// ── STATUT ──
 window.setStatus=async function(firestoreId,status){
   try{await updateDoc(doc(db,"orders",firestoreId),{status});}catch(e){console.error(e);}
 };
 
-// ── SUPPRIMER UNE COMMANDE ──
 window.deleteOrder=function(firestoreId){
   openConfirm("⚠️","SUPPRIMER ?","Cette commande sera supprimée définitivement.",async()=>{
     try{await deleteDoc(doc(db,"orders",firestoreId));knownOrderIds.delete(firestoreId);}catch(e){console.error(e);}
   });
 };
 
-// ── SUPPRIMER TOUTES ──
 window.askDeleteAll=function(){
   openConfirm("🗑","TOUT SUPPRIMER ?",`Tu vas supprimer <strong style="color:var(--accent3)">${orders.length} commande${orders.length>1?"s":""}</strong> définitivement. Cette action est irréversible.`,async()=>{
-    try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];}catch(e){console.error(e);}
+    try{
+      const batch=writeBatch(db);
+      orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
+      await batch.commit();
+      knownOrderIds=new Set();orders=[];
+    }catch(e){console.error(e);}
   });
 };
 window.askResetStats=function(){
-  openConfirm("📊","REMETTRE LES STATS À ZÉRO ?","Toutes les commandes seront supprimées — les statistiques reviendront à 0.",async()=>{
+  openConfirm("📊","REMETTRE LES STATS À ZÉRO ?","Toutes les commandes seront supprimées.",async()=>{
     try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];}catch(e){console.error(e);}
   });
 };
 window.askResetStock=function(){
-  openConfirm("🔄","REMETTRE LE STOCK À ZÉRO ?","Tous les goûts seront remis en disponible. Les données de stock dans Firestore seront effacées.",async()=>{
+  openConfirm("🔄","REMETTRE LE STOCK À ZÉRO ?","Tous les goûts seront remis en disponible.",async()=>{
     try{await setDoc(doc(db,"config","stock"),{});stockCache={};if(document.getElementById("page-stock").style.display!=="none")renderStock();}catch(e){console.error(e);}
   });
 };
@@ -682,32 +672,33 @@ window.renderOrders=function(){
   let filtered=orders.filter(o=>{
     if(sf!=="tous"&&o.status!==sf)return false;
     if(zf!=="tous"&&!(o.zone||"").includes(zf))return false;
-    if(q&&!(o.name||"").toLowerCase().includes(q)&&!(o.phone||"").includes(q)&&!(o.snap||"").toLowerCase().includes(q))return false;
+    if(q&&!(o.name||"").toLowerCase().includes(q)&&!(o.phone||"").includes(q)&&!(o.snap||"").toLowerCase().includes(q)&&!(o.email||"").toLowerCase().includes(q))return false;
     return true;
   });
   document.getElementById("ordersCount").textContent=filtered.length;
   const c=document.getElementById("ordersContainer");
   if(!filtered.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Aucune commande trouvée</div></div>`;return;}
+  // ip field = email du client
   c.innerHTML=`<div class="table-wrap"><table class="orders-table">
-    <thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Articles</th><th>Total</th><th>Date</th><th>IP</th><th>Statut</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Articles</th><th>Total</th><th>Date</th><th>Compte</th><th>Statut</th><th>Actions</th></tr></thead>
     <tbody>${filtered.map(o=>`<tr class="${newOrderIds.has(o.firestoreId)?"new-order-row":""}">
-      <td><div class="client-name">${o.name||"?"}</div><div class="client-phone" style="font-size:.7rem;color:var(--muted)">${o.email||""}</div></td>
+      <td><div class="client-name">${o.name||"?"}</div></td>
       <td>
         ${o.phone?`<div class="client-phone">📞 ${o.phone}</div>`:""}
-        ${o.snap?`<div class="snap-link">👻 ${o.snap}</div>`:""}
+        ${o.snap?`<div class="client-phone">👻 ${o.snap}</div>`:""}
       </td>
       <td><span class="zone-tag">${o.zone||"?"}</span></td>
       <td><div class="qty-badge">${o.nb||0}</div></td>
       <td><div class="total-badge">${o.total||0}€</div></td>
       <td><div class="date-txt">${o.date||""}</div></td>
-      <td><span class="ip-tag">${o.ip||"—"}</span></td>
+      <td><span class="email-tag" title="${o.email||o.ip||"—"}">${o.email||o.ip||"—"}</span></td>
       <td>${statusBadge(o.status)}</td>
       <td><div class="action-btns">
         <button class="act-btn eye" title="Détail" onclick="openDetail('${o.firestoreId}')">👁</button>
         <button class="act-btn ok"  title="Confirmer" onclick="setStatus('${o.firestoreId}','confirme')">✔</button>
         <button class="act-btn done" title="Livré" onclick="setStatus('${o.firestoreId}','livre')">📦</button>
         <button class="act-btn no"  title="Annuler" onclick="setStatus('${o.firestoreId}','annule')">✕</button>
-        <button class="act-btn ban-act" title="Bannir IP" onclick="banFromOrder('${o.ip||""}','${o.name||""}')">🚫</button>
+        <button class="act-btn ban-act" title="Bannir compte" onclick="banFromOrder('${(o.email||o.ip||"").replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}')">🚫</button>
         <button class="act-btn del" title="Supprimer" onclick="deleteOrder('${o.firestoreId}')">🗑</button>
       </div></td>
     </tr>`).join("")}</tbody>
@@ -722,20 +713,20 @@ function statusBadge(s){
 
 window.openDetail=function(firestoreId){
   const o=orders.find(x=>x.firestoreId===firestoreId);if(!o)return;
+  const clientEmail=o.email||o.ip||"—";
   document.getElementById("modalTitle").textContent="COMMANDE";
   document.getElementById("modalContent").innerHTML=`
     <div class="detail-row"><span class="detail-lbl">Client</span><span class="detail-val">${o.name||"—"}</span></div>
+    <div class="detail-row"><span class="detail-lbl">Email</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.78rem">${clientEmail}</span></div>
     <div class="detail-row"><span class="detail-lbl">Téléphone</span><span class="detail-val">${o.phone||"—"}</span></div>
     <div class="detail-row"><span class="detail-lbl">Snapchat</span><span class="detail-val">${o.snap||"—"}</span></div>
-    <div class="detail-row"><span class="detail-lbl">Email</span><span class="detail-val" style="font-size:.8rem;color:var(--muted2)">${o.email||"—"}</span></div>
     <div class="detail-row"><span class="detail-lbl">Zone</span><span class="detail-val"><span class="zone-tag">${o.zone||"—"}</span></span></div>
     <div class="detail-row"><span class="detail-lbl">Date</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.8rem">${o.date||"—"}</span></div>
-    <div class="detail-row"><span class="detail-lbl">IP</span><span class="detail-val"><span class="ip-tag">${o.ip||"—"}</span></span></div>
     <div class="detail-row"><span class="detail-lbl">Statut</span><span class="detail-val">${statusBadge(o.status)}</span></div>
     ${o.msg?`<div class="detail-row"><span class="detail-lbl">Message</span><span class="detail-val" style="color:var(--muted2);font-style:italic">"${o.msg}"</span></div>`:""}
     <div class="items-box">
       ${(o.items||[]).map(i=>`<div class="item-row">
-        <span>${i.icon||ICONS[i.nom]||"📦"} ${i.nom}${i.version?" ("+i.version+"k)":""} ×${i.qty}</span>
+        <span>${i.icon||ICONS[i.nom]||"📦"} ${i.nom}</span>
         <span class="item-price">${i.total||i.qty*i.prix}€</span>
       </div>`).join("")}
     </div>
@@ -747,8 +738,8 @@ window.openDetail=function(firestoreId){
       <button class="modal-btn mb-confirm" onclick="setStatus('${firestoreId}','confirme');closeModal()">✔ CONFIRMER</button>
       <button class="modal-btn mb-deliver" onclick="setStatus('${firestoreId}','livre');closeModal()">📦 LIVRÉ</button>
       <button class="modal-btn mb-cancel"  onclick="setStatus('${firestoreId}','annule');closeModal()">✕ ANNULER</button>
-      <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3)" onclick="banFromOrder('${o.ip||""}','${o.name||""}');closeModal()">🚫 BAN IP</button>
-      <button class="modal-btn mb-close"   onclick="closeModal()">FERMER</button>
+      <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3)" onclick="banFromOrder('${clientEmail.replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}');closeModal()">🚫 BAN COMPTE</button>
+      <button class="modal-btn mb-close" onclick="closeModal()">FERMER</button>
     </div>`;
   document.getElementById("detailModal").classList.add("open");
 };
@@ -845,28 +836,33 @@ window.logout=function(){
   document.getElementById("taskbar").style.display="none";
 };
 
-// ── TOUCHE SUPPR = RESET TOTAL ──
-document.addEventListener("keydown", function(e){
-  if(e.key==="Delete" && document.getElementById("dashboard").style.display!=="none"){
-    // Vérifier qu'on n'est pas dans un input
-    if(document.activeElement && (document.activeElement.tagName==="INPUT"||document.activeElement.tagName==="TEXTAREA"||document.activeElement.tagName==="SELECT")) return;
-    openConfirm("🗑","RESET TOTAL ?",
-      `La touche <strong>Suppr</strong> a été pressée.<br>Toutes les commandes (<strong style="color:var(--accent3)">${orders.length}</strong>) seront supprimées.<br><br>Confirmer ?`,
-      async()=>{
-        try{
-          const batch=writeBatch(db);
-          orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
-          await batch.commit();
-          knownOrderIds=new Set();orders=[];
-        }catch(err){console.error(err);}
-      }
-    );
-  }
+// ── TOUCHE SUPPR — CORRIGÉ ──
+// Ne se déclenche que si on n'est PAS dans un champ de saisie
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Delete")return;
+  if(document.getElementById("dashboard").style.display==="none")return;
+  // Vérifie que le focus n'est PAS dans un input/textarea/select
+  const tag=document.activeElement?document.activeElement.tagName:"";
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
+  // Vérifie aussi les modales ouvertes
+  if(document.getElementById("confirmOverlay").classList.contains("open"))return;
+  if(document.getElementById("detailModal").classList.contains("open"))return;
+  // Déclenche la confirmation
+  openConfirm("🗑","RESET TOTAL ?",
+    `La touche <strong>Suppr</strong> a été pressée.<br>Toutes les commandes (<strong style="color:var(--accent3)">${orders.length}</strong>) seront supprimées.<br><br>Confirmer ?`,
+    async()=>{
+      try{
+        const batch=writeBatch(db);
+        orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
+        await batch.commit();
+        knownOrderIds=new Set();orders=[];
+      }catch(err){console.error(err);}
+    }
+  );
 });
 </script>
 
 <!-- AUTH OTP -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 const EMAILJS_PUBLIC_KEY="Z5Ztf761baPp_WRG_";
 const EMAILJS_SERVICE_ID="service_fm4f57w";
