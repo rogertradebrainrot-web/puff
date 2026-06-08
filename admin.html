@@ -5,245 +5,272 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>PuffAdmin — Espace Administrateur</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#07080a;--surface:#0d0f14;--surface2:#141720;--surface3:#1b1f2c;
-  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
-  --accent:#d4ff4a;--accent2:#4affb4;--accent3:#ff4a7a;--accent4:#4a9fff;
-  --warn:#ffb84a;--text:#eceef5;--muted:#454860;--muted2:#7a7f9a;
-  --r:16px;--taskbar-h:64px;
+  --bg:#050608;--surface:#0a0c10;--surface2:#111318;--surface3:#181b22;--surface4:#1f2330;
+  --border:rgba(255,255,255,0.05);--border2:rgba(255,255,255,0.09);--border3:rgba(255,255,255,0.14);
+  --accent:#c8f135;--accent-dim:rgba(200,241,53,0.1);--accent2:#35f1a8;--accent3:#f1355a;--accent4:#357ff1;
+  --warn:#f1a035;--text:#e8eaf2;--muted:#3d4155;--muted2:#7880a0;--muted3:#a0a8c0;
+  --r:20px;--r2:14px;--taskbar-h:64px;--font:'Space Grotesk',sans-serif;
 }
-body{background:var(--bg);color:var(--text);font-family:'Bricolage Grotesque',sans-serif;min-height:100vh;padding-bottom:calc(var(--taskbar-h)+16px);}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.3;}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;padding-bottom:calc(var(--taskbar-h)+24px)}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");pointer-events:none;z-index:2000;opacity:.02;mix-blend-mode:overlay}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 20%,rgba(200,241,53,.04) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 80% 80%,rgba(53,127,241,.03) 0%,transparent 60%);pointer-events:none;z-index:0}
 
 /* TASKBAR */
-.taskbar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(13,15,20,0.9);backdrop-filter:blur(28px) saturate(200%);border:1px solid var(--border2);border-radius:22px;padding:8px 10px;display:flex;align-items:center;gap:2px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04) inset,0 1px 0 rgba(255,255,255,.08) inset;}
-.taskbar-sep{width:1px;height:30px;background:var(--border2);margin:0 6px;flex-shrink:0;}
-.tb-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;border-radius:14px;cursor:pointer;border:none;background:transparent;color:var(--muted2);font-family:'Bricolage Grotesque',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;transition:all .2s cubic-bezier(.34,1.56,.64,1);position:relative;white-space:nowrap;min-width:64px;}
-.tb-icon{font-size:1.2rem;line-height:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
-.tb-btn:hover{background:var(--surface3);color:var(--text)}
-.tb-btn:hover .tb-icon{transform:scale(1.2) translateY(-2px)}
-.tb-btn.active{background:rgba(212,255,74,.1);color:var(--accent)}
-.tb-notif{position:absolute;top:6px;right:12px;width:8px;height:8px;background:var(--accent3);border-radius:50%;border:2px solid var(--surface);animation:pulse 2s infinite;display:none;}
+.taskbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:999;
+  background:rgba(10,12,16,0.9);backdrop-filter:blur(32px) saturate(200%);
+  border:1px solid var(--border3);border-radius:24px;
+  padding:6px 8px;display:flex;align-items:center;gap:2px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 1px 0 rgba(255,255,255,.06) inset}
+.taskbar-sep{width:1px;height:28px;background:var(--border2);margin:0 4px;flex-shrink:0}
+.tb-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 16px;
+  border-radius:18px;cursor:pointer;border:none;background:transparent;
+  color:var(--muted2);font-family:var(--font);font-size:.6rem;font-weight:600;
+  letter-spacing:.8px;text-transform:uppercase;transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  position:relative;white-space:nowrap;min-width:64px}
+.tb-icon{font-size:1.15rem;line-height:1;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.tb-btn:hover{background:var(--surface4);color:var(--text)}
+.tb-btn:hover .tb-icon{transform:scale(1.18) translateY(-2px)}
+.tb-btn.active{background:var(--accent-dim);color:var(--accent)}
+.tb-notif{position:absolute;top:5px;right:10px;width:8px;height:8px;
+  background:var(--accent3);border-radius:50%;border:2px solid var(--bg);
+  animation:pulse 2s infinite;display:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 
 /* LOGIN */
-.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 50% 50% at 20% 30%,rgba(212,255,74,.05) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 80% 70%,rgba(74,160,255,.04) 0%,transparent 60%);}
-.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:2.5rem;width:90%;max-width:400px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.6);}
-.login-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:var(--accent);margin-bottom:4px;}
-.login-logo span{color:var(--text)}
-.login-sub{font-size:.75rem;color:var(--muted2);margin-bottom:2rem;letter-spacing:.5px}
-.login-input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:12px;padding:11px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.9rem;outline:none;margin-bottom:.75rem;transition:all .2s;}
-.login-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,255,74,.1)}
-.login-btn{width:100%;background:var(--accent);color:#07080a;border:none;padding:12px;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.login-btn:hover:not(:disabled){background:#e8ff80;transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,255,74,.25)}
-.login-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.login-box{background:linear-gradient(160deg,rgba(17,19,24,.95),rgba(10,12,16,.98));
+  border:1px solid var(--border3);border-radius:28px;padding:2.75rem 2.5rem;
+  width:92%;max-width:400px;text-align:center;
+  box-shadow:0 40px 100px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.06) inset}
+.login-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.4rem;color:var(--accent);margin-bottom:4px;line-height:1;letter-spacing:-1px}
+.login-logo span{color:var(--text);font-style:normal}
+.login-sub{font-size:.68rem;color:var(--muted2);margin-bottom:2.25rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:500}
+.login-input{width:100%;background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text);border-radius:var(--r2);padding:12px 16px;font-family:var(--font);
+  font-size:.9rem;outline:none;margin-bottom:.75rem;transition:all .2s}
+.login-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,241,53,.08)}
+.login-btn{width:100%;background:var(--accent);color:#050608;border:none;padding:13px;
+  border-radius:var(--r2);font-family:var(--font);font-size:.9rem;font-weight:700;
+  letter-spacing:.3px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.login-btn:hover:not(:disabled){background:#d8ff50;transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,241,53,.25)}
+.login-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .login-err{font-size:.78rem;color:var(--accent3);margin-top:.6rem;display:none}
 .login-info{font-size:.78rem;color:var(--accent2);margin-top:.6rem;display:none}
-.step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:1.5rem;}
-.step-dot{width:8px;height:8px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);transition:all .3s;}
-.step-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px rgba(212,255,74,.4);}
-.step-dot.done{background:var(--accent2);border-color:var(--accent2);}
-.otp-label{font-size:.78rem;color:var(--muted2);margin-bottom:1rem;line-height:1.5}
+.step-indicator{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:1.75rem}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);transition:all .3s}
+.step-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px rgba(200,241,53,.35)}
+.step-dot.done{background:var(--accent2);border-color:var(--accent2)}
+.otp-label{font-size:.78rem;color:var(--muted2);margin-bottom:1rem;line-height:1.6}
 .otp-label strong{color:var(--text)}
-.otp-inputs{display:flex;gap:8px;justify-content:center;margin-bottom:1rem;}
-.otp-digit{width:44px;height:52px;background:var(--surface2);border:1.5px solid var(--border2);color:var(--text);border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;text-align:center;outline:none;transition:all .2s;caret-color:var(--accent);}
-.otp-digit:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,255,74,.1);}
-.otp-digit.filled{border-color:rgba(212,255,74,.3);background:rgba(212,255,74,.04);}
-.resend-row{font-size:.75rem;color:var(--muted2);margin-top:.5rem;}
-.resend-link{color:var(--accent4);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'Bricolage Grotesque',sans-serif;font-size:.75rem;padding:0;}
-.resend-link:disabled{color:var(--muted);text-decoration:none;cursor:default;}
-.timer-txt{font-family:'DM Mono',monospace;color:var(--accent);font-size:.75rem;}
-.spinner{width:16px;height:16px;border:2px solid rgba(7,8,10,.3);border-top:2px solid #07080a;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.otp-inputs{display:flex;gap:8px;justify-content:center;margin-bottom:1rem}
+.otp-digit{width:44px;height:52px;background:var(--surface2);border:1.5px solid var(--border2);
+  color:var(--text);border-radius:var(--r2);font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:1.7rem;text-align:center;outline:none;transition:all .2s;caret-color:var(--accent)}
+.otp-digit:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,241,53,.08)}
+.otp-digit.filled{border-color:rgba(200,241,53,.3);background:rgba(200,241,53,.04)}
+.resend-row{font-size:.73rem;color:var(--muted2);margin-top:.5rem}
+.resend-link{color:var(--accent4);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:var(--font);font-size:.73rem;padding:0}
+.resend-link:disabled{color:var(--muted);text-decoration:none;cursor:default}
+.timer-txt{font-family:'DM Mono',monospace;color:var(--accent);font-size:.73rem}
+.spinner{width:16px;height:16px;border:2px solid rgba(5,6,8,.3);border-top:2px solid #050608;border-radius:50%;animation:spin .7s linear infinite;display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* DASHBOARD */
-.dashboard{display:none;min-height:100vh}
+.dashboard{display:none;position:relative;z-index:1}
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2rem;background:rgba(5,6,8,.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.topbar-logo{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.7rem;color:var(--accent);letter-spacing:-0.5px}
+.topbar-logo span{color:var(--text);font-style:normal}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.topbar-tag{background:var(--accent-dim);border:1px solid rgba(200,241,53,.2);color:var(--accent);font-size:.68rem;font-weight:700;padding:5px 12px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase}
+.topbar-badge{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-size:.73rem;padding:5px 12px;border-radius:99px}
 .main{padding:2rem;max-width:1400px;margin:0 auto}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(7,8,10,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px;}
-.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:4px;color:var(--accent);}
-.topbar-logo span{color:var(--text)}
-.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.topbar-tag{background:rgba(212,255,74,.08);border:1px solid rgba(212,255,74,.2);color:var(--accent);font-size:.7rem;font-weight:700;padding:5px 12px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;}
-.topbar-badge{background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-size:.75rem;padding:5px 12px;border-radius:99px;}
 .page-header{margin-bottom:1.75rem}
-.page-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:var(--text);margin-bottom:4px;}
-.page-sub{font-size:.82rem;color:var(--muted2)}
+.page-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.2rem;color:var(--text);margin-bottom:4px;letter-spacing:-0.5px}
+.page-sub{font-size:.8rem;color:var(--muted2);font-weight:400}
 
 /* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:2rem;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;position:relative;overflow:hidden;transition:border-color .2s;}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-color,var(--accent));}
-.stat-card:hover{border-color:rgba(212,255,74,.2)}
-.stat-label{font-size:.7rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:.5rem}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--stat-color,var(--accent));line-height:1;}
-.stat-sub{font-size:.72rem;color:var(--muted);margin-top:4px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.25rem;position:relative;overflow:hidden;transition:border-color .2s}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-color,var(--accent))}
+.stat-card:hover{border-color:rgba(200,241,53,.15)}
+.stat-label{font-size:.68rem;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:.5rem}
+.stat-value{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.2rem;color:var(--stat-color,var(--accent));line-height:1}
+.stat-sub{font-size:.7rem;color:var(--muted);margin-top:4px}
 
 /* TABLE */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px;}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--text);display:flex;align-items:center;gap:10px;}
-.count-pill{background:var(--surface2);border:1px solid var(--border);padding:3px 10px;border-radius:99px;font-size:.72rem;font-weight:400;color:var(--muted2);font-family:'DM Mono',monospace;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:10px}
+.section-title{font-family:var(--font);font-size:1rem;font-weight:700;letter-spacing:.5px;color:var(--text);display:flex;align-items:center;gap:10px;text-transform:uppercase}
+.count-pill{background:var(--surface2);border:1px solid var(--border);padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:400;color:var(--muted2);font-family:'DM Mono',monospace}
 .filters-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
-.flt-select{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:10px;font-family:'Bricolage Grotesque',sans-serif;font-size:.82rem;outline:none;cursor:pointer;transition:border-color .2s;}
-.flt-select:focus{border-color:var(--accent)}
-.flt-search{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:10px;font-family:'Bricolage Grotesque',sans-serif;font-size:.82rem;outline:none;width:200px;transition:all .2s;}
-.flt-search:focus{border-color:var(--accent);width:250px;box-shadow:0 0 0 3px rgba(212,255,74,.1)}
-.flt-btn{padding:7px 14px;border-radius:10px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--border);font-family:'Bricolage Grotesque',sans-serif;}
+.flt-select,.flt-search{background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:8px 14px;border-radius:var(--r2);font-family:var(--font);font-size:.82rem;outline:none;cursor:pointer;transition:all .2s}
+.flt-search{width:200px}
+.flt-select:focus,.flt-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,241,53,.07)}
+.flt-search:focus{width:240px}
+.flt-btn{padding:8px 14px;border-radius:var(--r2);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid var(--border);font-family:var(--font)}
 .flt-refresh{background:var(--surface2);color:var(--muted2)}
 .flt-refresh:hover{background:var(--surface3);color:var(--text)}
-.flt-danger{background:rgba(255,74,122,.1);color:var(--accent3);border-color:rgba(255,74,122,.3);}
-.flt-danger:hover{background:var(--accent3);color:#fff;border-color:var(--accent3);}
-.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;overflow-x:auto;}
-.orders-table{width:100%;border-collapse:collapse;min-width:900px;}
-.orders-table th{font-size:.68rem;color:var(--muted2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:700;text-transform:uppercase;letter-spacing:.8px;background:var(--surface2);font-family:'DM Mono',monospace;}
-.orders-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:.84rem;vertical-align:middle;}
+.flt-danger{background:rgba(241,53,90,.08);color:var(--accent3);border-color:rgba(241,53,90,.25)}
+.flt-danger:hover{background:var(--accent3);color:#fff;border-color:var(--accent3)}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;overflow-x:auto}
+.orders-table{width:100%;border-collapse:collapse;min-width:880px}
+.orders-table th{font-size:.65rem;color:var(--muted2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-weight:700;text-transform:uppercase;letter-spacing:1px;background:var(--surface2);font-family:'DM Mono',monospace}
+.orders-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:.83rem;vertical-align:middle}
 .orders-table tr:last-child td{border-bottom:none}
 .orders-table tbody tr{transition:background .15s}
-.orders-table tbody tr:hover td{background:var(--surface2)}
-.orders-table tbody tr.new-order-row{animation:newRowFlash 1.2s ease forwards;}
-@keyframes newRowFlash{0%{background:rgba(212,255,74,.18);}40%{background:rgba(212,255,74,.1);}100%{background:transparent;}}
-.client-name{font-weight:600}
-.client-phone{font-size:.76rem;color:var(--muted2)}
-.zone-tag{background:rgba(74,160,255,.08);border:1px solid rgba(74,160,255,.2);color:var(--accent4);padding:3px 8px;border-radius:6px;font-size:.72rem;font-family:'DM Mono',monospace;}
-.qty-badge{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--accent);}
-.total-badge{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1px;color:var(--accent);}
-.date-txt{font-size:.72rem;color:var(--muted2);font-family:'DM Mono',monospace}
-.status-badge{padding:4px 10px;border-radius:8px;font-size:.7rem;font-weight:700;letter-spacing:.3px}
-.s-nouveau{background:rgba(74,160,255,.1);color:var(--accent4);border:1px solid rgba(74,160,255,.2)}
-.s-confirme{background:rgba(212,255,74,.1);color:var(--accent);border:1px solid rgba(212,255,74,.2)}
-.s-livre{background:rgba(74,255,180,.1);color:var(--accent2);border:1px solid rgba(74,255,180,.2)}
-.s-annule{background:rgba(255,74,122,.1);color:var(--accent3);border:1px solid rgba(255,74,122,.2)}
+.orders-table tbody tr:hover td{background:rgba(255,255,255,.02)}
+.orders-table tbody tr.new-order-row{animation:newRowFlash 1.5s ease forwards}
+@keyframes newRowFlash{0%{background:rgba(200,241,53,.15)}100%{background:transparent}}
+.client-name{font-weight:600;font-size:.85rem}
+.client-phone{font-size:.73rem;color:var(--muted2)}
+.zone-tag{background:rgba(53,127,241,.08);border:1px solid rgba(53,127,241,.18);color:var(--accent4);padding:3px 9px;border-radius:8px;font-size:.7rem;font-family:'DM Mono',monospace}
+.qty-badge{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.3rem;color:var(--accent)}
+.total-badge{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.2rem;color:var(--accent)}
+.date-txt{font-size:.7rem;color:var(--muted2);font-family:'DM Mono',monospace}
+.status-badge{padding:4px 10px;border-radius:8px;font-size:.68rem;font-weight:700;letter-spacing:.3px}
+.s-nouveau{background:rgba(53,127,241,.08);color:var(--accent4);border:1px solid rgba(53,127,241,.18)}
+.s-confirme{background:rgba(200,241,53,.08);color:var(--accent);border:1px solid rgba(200,241,53,.18)}
+.s-livre{background:rgba(53,241,168,.08);color:var(--accent2);border:1px solid rgba(53,241,168,.18)}
+.s-annule{background:rgba(241,53,90,.08);color:var(--accent3);border:1px solid rgba(241,53,90,.18)}
 .action-btns{display:flex;gap:4px;flex-wrap:wrap}
-.act-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted2);cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.act-btn:hover.ok{background:rgba(212,255,74,.15);border-color:var(--accent);color:var(--accent)}
-.act-btn:hover.done{background:rgba(74,255,180,.15);border-color:var(--accent2);color:var(--accent2)}
-.act-btn:hover.no{background:rgba(255,74,122,.15);border-color:var(--accent3);color:var(--accent3)}
-.act-btn:hover.eye{background:rgba(74,160,255,.15);border-color:var(--accent4);color:var(--accent4)}
-.act-btn:hover.del{background:rgba(255,74,122,.15);border-color:var(--accent3);color:var(--accent3)}
-.act-btn:hover.ban-act{background:rgba(255,74,122,.2);border-color:var(--accent3);color:var(--accent3)}
-.email-tag{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);background:var(--surface3);padding:2px 7px;border-radius:5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;}
+.act-btn{width:28px;height:28px;border-radius:9px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--muted2);cursor:pointer;font-size:.82rem;
+  display:flex;align-items:center;justify-content:center;transition:all .2s}
+.act-btn:hover.ok{background:rgba(200,241,53,.12);border-color:var(--accent);color:var(--accent)}
+.act-btn:hover.done{background:rgba(53,241,168,.12);border-color:var(--accent2);color:var(--accent2)}
+.act-btn:hover.no{background:rgba(241,53,90,.12);border-color:var(--accent3);color:var(--accent3)}
+.act-btn:hover.eye{background:rgba(53,127,241,.12);border-color:var(--accent4);color:var(--accent4)}
+.act-btn:hover.del,.act-btn:hover.ban-act{background:rgba(241,53,90,.12);border-color:var(--accent3);color:var(--accent3)}
+.email-tag{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--muted);background:var(--surface3);
+  padding:2px 7px;border-radius:6px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block}
 
 /* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);z-index:500;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:1.75rem;width:100%;max-width:480px;animation:scaleIn .25s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto;}
-@keyframes scaleIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--accent);}
-.modal-close{background:var(--surface2);border:1px solid var(--border);color:var(--text);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-box{background:var(--surface);border:1px solid var(--border3);border-radius:24px;padding:1.75rem;width:100%;max-width:480px;animation:scaleIn .25s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
+@keyframes scaleIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.modal-title{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.4rem;color:var(--accent);letter-spacing:-0.5px}
+.modal-close{background:var(--surface2);border:1px solid var(--border);color:var(--text);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .modal-close:hover{background:var(--accent3);border-color:var(--accent3);color:#fff}
-.detail-row{display:flex;gap:10px;margin-bottom:.6rem;font-size:.84rem}
-.detail-lbl{color:var(--muted2);font-weight:600;width:100px;flex-shrink:0;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
+.detail-row{display:flex;gap:10px;margin-bottom:.6rem;font-size:.83rem}
+.detail-lbl{color:var(--muted2);font-weight:600;width:90px;flex-shrink:0;font-size:.7rem;text-transform:uppercase;letter-spacing:.8px;padding-top:2px}
 .detail-val{flex:1;font-weight:500}
-.items-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:.85rem 1rem;margin:.9rem 0;}
-.item-row{display:flex;justify-content:space-between;font-size:.82rem;padding:5px 0;border-bottom:1px solid var(--border);}
+.items-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:.85rem 1rem;margin:.9rem 0}
+.item-row{display:flex;justify-content:space-between;font-size:.81rem;padding:5px 0;border-bottom:1px solid var(--border)}
 .item-row:last-child{border-bottom:none}
 .item-price{color:var(--accent);font-weight:700;font-family:'DM Mono',monospace}
-.total-row{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);}
-.total-row-label{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--muted2);}
-.total-row-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--accent);}
+.total-row{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.total-row-label{font-family:var(--font);font-weight:700;font-size:.85rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px}
+.total-row-val{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.8rem;color:var(--accent);letter-spacing:-0.5px}
 .modal-actions{display:flex;gap:8px;margin-top:1.1rem;flex-wrap:wrap}
-.modal-btn{flex:1;padding:10px;border-radius:12px;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.85rem;cursor:pointer;border:none;transition:all .2s;min-width:90px;}
-.mb-confirm{background:var(--accent);color:#07080a}
-.mb-confirm:hover{background:#e8ff80}
-.mb-deliver{background:var(--accent2);color:#07080a}
-.mb-deliver:hover{filter:brightness(1.15)}
-.mb-cancel{background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3)}
+.modal-btn{flex:1;padding:10px;border-radius:var(--r2);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;border:none;transition:all .2s;min-width:85px;letter-spacing:.2px}
+.mb-confirm{background:var(--accent);color:#050608}
+.mb-confirm:hover{background:#d8ff50}
+.mb-deliver{background:var(--accent2);color:#050608}
+.mb-deliver:hover{filter:brightness(1.12)}
+.mb-cancel{background:rgba(241,53,90,.1);border:1px solid rgba(241,53,90,.25) !important;color:var(--accent3)}
 .mb-cancel:hover{background:var(--accent3);color:#fff}
-.mb-close{background:var(--surface2);border:1px solid var(--border);color:var(--muted2)}
-.mb-close:hover{color:var(--text);border-color:var(--border2)}
+.mb-close{background:var(--surface2);border:1px solid var(--border) !important;color:var(--muted2)}
+.mb-close:hover{color:var(--text);border-color:var(--border2) !important}
 
 /* STOCK */
-.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted2);}
-.empty-icon{font-size:3rem;margin-bottom:1rem}
-.empty-text{font-size:.88rem}
-.flavor-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.flavor-bar-name{font-size:.82rem;color:var(--text);width:220px;flex-shrink:0;font-weight:500}
-.flavor-bar-track{flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden}
+.empty-state{text-align:center;padding:3rem 2rem;color:var(--muted2)}
+.empty-icon{font-size:2.5rem;margin-bottom:.75rem}
+.empty-text{font-size:.86rem}
+.flavor-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.flavor-bar-name{font-size:.8rem;color:var(--text);width:220px;flex-shrink:0;font-weight:500}
+.flavor-bar-track{flex:1;background:var(--surface3);border-radius:99px;height:5px;overflow:hidden}
 .flavor-bar-fill{height:100%;border-radius:99px;background:var(--accent);transition:width .8s cubic-bezier(.4,0,.2,1)}
-.flavor-bar-qty{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--accent);width:30px;text-align:right;font-weight:700;}
-.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem;}
-.stock-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;gap:12px;transition:all .2s;}
+.flavor-bar-qty{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--accent);width:28px;text-align:right;font-weight:700}
+.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:.9rem}
+.stock-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;display:flex;align-items:center;gap:12px;transition:all .2s;cursor:default}
 .stock-card:hover{background:var(--surface2)}
-.stock-card.inactive{border-color:rgba(255,74,122,.2);opacity:.6;}
-.stock-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.stock-name{font-weight:600;font-size:.85rem;margin-bottom:2px}
-.stock-status{font-size:.72rem;font-weight:700}
+.stock-card.inactive{border-color:rgba(241,53,90,.18);opacity:.55}
+.stock-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;flex-shrink:0}
+.stock-name{font-weight:600;font-size:.83rem;margin-bottom:2px}
+.stock-status{font-size:.7rem;font-weight:700}
 .status-active{color:var(--accent2)}
 .status-inactive{color:var(--accent3)}
-.stock-toggle{margin-left:auto;width:36px;height:20px;background:var(--surface3);border:1px solid var(--border);border-radius:99px;cursor:pointer;position:relative;transition:all .2s;flex-shrink:0;}
+.stock-toggle{margin-left:auto;width:36px;height:20px;background:var(--surface3);border:1px solid var(--border);border-radius:99px;cursor:pointer;position:relative;transition:all .25s;flex-shrink:0}
 .stock-toggle.on{background:var(--accent);border-color:var(--accent)}
-.stock-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#07080a;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
+.stock-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#050608;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
 .stock-toggle.on::after{transform:translateX(16px)}
 
-/* BAN PAGE — Sélection depuis liste clients */
-.ban-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;}
-.ban-card{background:var(--surface);border:1px solid rgba(255,74,122,.2);border-radius:var(--r);padding:1.1rem;display:flex;align-items:center;gap:12px;transition:all .2s;}
+/* BAN PAGE */
+.ban-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem}
+.ban-card{background:var(--surface);border:1px solid rgba(241,53,90,.18);border-radius:var(--r);padding:1.1rem;display:flex;align-items:center;gap:12px;transition:all .2s}
 .ban-card:hover{background:var(--surface2)}
-.ban-ip{font-family:'DM Mono',monospace;font-size:.82rem;color:var(--accent3);font-weight:700;word-break:break-all;}
+.ban-ip{font-family:var(--font);font-size:.85rem;color:var(--accent3);font-weight:700}
 .ban-type{font-size:.72rem;color:var(--muted2);margin-top:2px}
-.ban-remain{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--warn);margin-top:2px}
+.ban-remain{font-family:'DM Mono',monospace;font-size:.73rem;color:var(--warn);margin-top:2px}
 .ban-actions{margin-left:auto;display:flex;gap:6px;flex-shrink:0}
-.unban-btn{padding:6px 12px;border-radius:8px;border:1px solid rgba(74,255,180,.3);background:rgba(74,255,180,.08);color:var(--accent2);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Bricolage Grotesque',sans-serif;}
-.unban-btn:hover{background:var(--accent2);color:#07080a;border-color:var(--accent2)}
-
-/* BAN FORM — Sélection client */
-.ban-form-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;margin-bottom:2rem;}
-.ban-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--accent3);margin-bottom:.5rem;}
-.ban-form-sub{font-size:.78rem;color:var(--muted2);margin-bottom:1rem;}
+.unban-btn{padding:6px 12px;border-radius:9px;border:1px solid rgba(53,241,168,.25);background:rgba(53,241,168,.06);color:var(--accent2);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font)}
+.unban-btn:hover{background:var(--accent2);color:#050608;border-color:var(--accent2)}
+.ban-form-box{background:var(--surface);border:1px solid var(--border3);border-radius:var(--r);padding:1.5rem;margin-bottom:2rem}
+.ban-form-title{font-family:var(--font);font-weight:700;font-size:.9rem;color:var(--accent3);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px}
+.ban-form-sub{font-size:.77rem;color:var(--muted2);margin-bottom:1.25rem}
 .ban-form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.ban-select-client{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.85rem;outline:none;cursor:pointer;transition:all .2s;flex:1;min-width:220px;}
-.ban-select-client:focus{border-color:var(--accent3);box-shadow:0 0 0 3px rgba(255,74,122,.1)}
-.ban-select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.85rem;outline:none;cursor:pointer;transition:all .2s;}
-.ban-select:focus{border-color:var(--accent3)}
-.btn-ban{padding:9px 20px;border-radius:10px;border:none;background:var(--accent3);color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.85rem;cursor:pointer;transition:all .2s;}
-.btn-ban:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.ban-client-preview{background:rgba(255,74,122,.06);border:1px solid rgba(255,74,122,.2);border-radius:10px;padding:.75rem 1rem;margin-top:.75rem;display:none;font-size:.82rem;}
+.ban-select-client,.ban-select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:var(--r2);padding:10px 14px;font-family:var(--font);font-size:.84rem;outline:none;cursor:pointer;transition:all .2s}
+.ban-select-client{flex:1;min-width:220px}
+.ban-select-client:focus,.ban-select:focus{border-color:var(--accent3);box-shadow:0 0 0 3px rgba(241,53,90,.08)}
+.btn-ban{padding:10px 20px;border-radius:var(--r2);border:none;background:var(--accent3);color:#fff;font-family:var(--font);font-weight:700;font-size:.84rem;cursor:pointer;transition:all .2s;letter-spacing:.2px}
+.btn-ban:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.ban-client-preview{background:rgba(241,53,90,.06);border:1px solid rgba(241,53,90,.18);border-radius:var(--r2);padding:.75rem 1rem;margin-top:.75rem;display:none;font-size:.82rem}
 .ban-client-preview strong{color:var(--accent3)}
-.ban-client-preview .ban-prev-email{font-family:'DM Mono',monospace;color:var(--muted2);font-size:.75rem;margin-top:3px}
+.ban-prev-email{font-family:'DM Mono',monospace;color:var(--muted2);font-size:.73rem;margin-top:3px}
 
-/* DANGER ZONE */
-.danger-zone{background:rgba(255,74,122,.04);border:1px solid rgba(255,74,122,.2);border-radius:var(--r);padding:1.5rem;margin-top:2rem;}
-.danger-zone-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--accent3);margin-bottom:.75rem;display:flex;align-items:center;gap:8px;}
-.danger-zone p{font-size:.8rem;color:var(--muted2);margin-bottom:1rem;line-height:1.6}
+/* DANGER */
+.danger-zone{background:rgba(241,53,90,.03);border:1px solid rgba(241,53,90,.18);border-radius:var(--r);padding:1.5rem;margin-top:2rem}
+.danger-zone-title{font-family:var(--font);font-weight:700;font-size:.85rem;color:var(--accent3);margin-bottom:.75rem;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.5px}
+.danger-zone p{font-size:.79rem;color:var(--muted2);margin-bottom:1rem;line-height:1.6}
 .danger-zone-btns{display:flex;gap:10px;flex-wrap:wrap}
-.btn-danger{padding:9px 18px;border-radius:10px;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.82rem;cursor:pointer;border:1px solid rgba(255,74,122,.4);background:rgba(255,74,122,.08);color:var(--accent3);transition:all .2s;}
-.btn-danger:hover{background:var(--accent3);color:#fff;border-color:var(--accent3);transform:translateY(-1px);}
+.btn-danger{padding:9px 18px;border-radius:var(--r2);font-family:var(--font);font-weight:600;font-size:.8rem;cursor:pointer;border:1px solid rgba(241,53,90,.3);background:rgba(241,53,90,.06);color:var(--accent3);transition:all .2s}
+.btn-danger:hover{background:var(--accent3);color:#fff;border-color:var(--accent3);transform:translateY(-1px)}
 
 /* NOTIFICATION */
-.notif-toast{position:fixed;top:24px;right:24px;z-index:2000;pointer-events:none;}
-.notif-card{background:var(--surface);border:1px solid rgba(212,255,74,.4);border-radius:20px;padding:1.1rem 1.4rem;min-width:280px;max-width:340px;box-shadow:0 16px 48px rgba(0,0,0,.7),0 0 0 1px rgba(212,255,74,.1) inset;transform:translateX(120%);opacity:0;transition:all .45s cubic-bezier(.34,1.56,.64,1);pointer-events:auto;position:relative;overflow:hidden;}
-.notif-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
-.notif-card.show{transform:translateX(0);opacity:1;}
-.notif-card.hide{transform:translateX(120%);opacity:0;transition:all .3s ease;}
-.notif-icon{font-size:1.6rem;margin-bottom:.5rem;display:block;animation:notifBounce .6s cubic-bezier(.34,1.56,.64,1);}
-@keyframes notifBounce{0%{transform:scale(0) rotate(-10deg)}60%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
-.notif-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--accent);margin-bottom:3px;}
-.notif-sub{font-size:.78rem;color:var(--muted2);line-height:1.4}
+.notif-toast{position:fixed;top:24px;right:24px;z-index:2000;pointer-events:none}
+.notif-card{background:var(--surface);border:1px solid rgba(200,241,53,.3);border-radius:20px;
+  padding:1.1rem 1.4rem;min-width:280px;max-width:330px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(200,241,53,.08) inset;
+  transform:translateX(120%);opacity:0;transition:all .45s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:auto;position:relative;overflow:hidden}
+.notif-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.notif-card.show{transform:translateX(0);opacity:1}
+.notif-card.hide{transform:translateX(120%);opacity:0;transition:all .3s ease}
+.notif-icon{font-size:1.5rem;margin-bottom:.4rem;display:block;animation:notifBounce .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes notifBounce{0%{transform:scale(0) rotate(-10deg)}60%{transform:scale(1.2) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+.notif-title{font-family:var(--font);font-weight:700;font-size:.88rem;letter-spacing:.5px;color:var(--accent);margin-bottom:3px;text-transform:uppercase}
+.notif-sub{font-size:.76rem;color:var(--muted2);line-height:1.4}
 .notif-sub strong{color:var(--text)}
-.notif-progress{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 0 20px 20px;animation:notifProgress 5s linear forwards;}
+.notif-progress{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));animation:notifProgress 5s linear forwards}
 @keyframes notifProgress{from{width:100%}to{width:0%}}
 
 /* FLASH */
-.screen-flash{position:fixed;inset:0;background:rgba(212,255,74,.06);z-index:1500;pointer-events:none;opacity:0;transition:opacity .15s;}
-.screen-flash.active{opacity:1;}
+.screen-flash{position:fixed;inset:0;background:rgba(200,241,53,.05);z-index:1500;pointer-events:none;opacity:0;transition:opacity .15s}
+.screen-flash.active{opacity:1}
 
 /* CONFIRM */
-.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:800;align-items:center;justify-content:center;padding:1rem;}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);z-index:800;align-items:center;justify-content:center;padding:1rem}
 .confirm-overlay.open{display:flex}
-.confirm-box{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:1.75rem;width:100%;max-width:380px;animation:scaleIn .25s cubic-bezier(.34,1.56,.64,1);text-align:center;}
-.confirm-icon{font-size:2.5rem;margin-bottom:.75rem;}
-.confirm-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--accent3);margin-bottom:.5rem;}
-.confirm-msg{font-size:.83rem;color:var(--muted2);line-height:1.6;margin-bottom:1.25rem;}
-.confirm-actions{display:flex;gap:10px;}
-.confirm-no{flex:1;padding:10px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-family:'Bricolage Grotesque',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;}
+.confirm-box{background:var(--surface);border:1px solid var(--border3);border-radius:20px;padding:1.75rem;width:100%;max-width:380px;animation:scaleIn .25s cubic-bezier(.34,1.56,.64,1);text-align:center}
+.confirm-icon{font-size:2.5rem;margin-bottom:.75rem}
+.confirm-title{font-family:var(--font);font-weight:700;font-size:1rem;color:var(--accent3);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.5px}
+.confirm-msg{font-size:.82rem;color:var(--muted2);line-height:1.65;margin-bottom:1.25rem}
+.confirm-actions{display:flex;gap:10px}
+.confirm-no{flex:1;padding:10px;border-radius:var(--r2);background:var(--surface2);border:1px solid var(--border);color:var(--muted2);font-family:var(--font);font-weight:600;cursor:pointer;transition:all .2s}
 .confirm-no:hover{color:var(--text);border-color:var(--border2)}
-.confirm-yes{flex:1;padding:10px;border-radius:12px;background:var(--accent3);border:none;color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.9rem;cursor:pointer;transition:all .2s;}
-.confirm-yes:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.confirm-yes{flex:1;padding:10px;border-radius:var(--r2);background:var(--accent3);border:none;color:#fff;font-family:var(--font);font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s;letter-spacing:.2px}
+.confirm-yes:hover{filter:brightness(1.12);transform:translateY(-1px)}
 
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:99px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--surface4);border-radius:99px}
 </style>
 </head>
 <body>
@@ -253,7 +280,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="notif-toast" id="notifToast">
   <div class="notif-card" id="notifCard">
     <span class="notif-icon">📦</span>
-    <div class="notif-title">NOUVELLE COMMANDE !</div>
+    <div class="notif-title">Nouvelle commande !</div>
     <div class="notif-sub" id="notifSub"></div>
     <div class="notif-progress"></div>
   </div>
@@ -262,11 +289,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
     <div class="confirm-icon" id="confirmIcon">⚠️</div>
-    <div class="confirm-title" id="confirmTitle">CONFIRMER</div>
+    <div class="confirm-title" id="confirmTitle">Confirmer</div>
     <div class="confirm-msg" id="confirmMsg"></div>
     <div class="confirm-actions">
       <button class="confirm-no" onclick="closeConfirm()">Annuler</button>
-      <button class="confirm-yes" id="confirmYesBtn">CONFIRMER</button>
+      <button class="confirm-yes" id="confirmYesBtn">Confirmer</button>
     </div>
   </div>
 </div>
@@ -274,8 +301,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
-    <div class="login-logo">Puff<span>Admin</span></div>
-    <div class="login-sub">ESPACE PRIVÉ · ACCÈS ADMINISTRATEUR</div>
+    <div class="login-logo"><em>Puff</em><span>Admin</span></div>
+    <div class="login-sub">Espace privé · Accès administrateur</div>
     <div id="step1">
       <div class="step-indicator">
         <div class="step-dot active"></div>
@@ -283,10 +310,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
         <div class="step-dot" id="dot2"></div>
       </div>
       <input class="login-input" type="text" id="loginUser" placeholder="Identifiant admin" autocomplete="off">
-      <input class="login-input" type="email" id="loginEmail" placeholder="Adresse email admin" autocomplete="off" onkeydown="if(event.key==='Enter')sendOTP()">
+      <input class="login-input" type="email" id="loginEmail" placeholder="Email admin" autocomplete="off" onkeydown="if(event.key==='Enter')sendOTP()">
       <button class="login-btn" id="btnSendOTP" onclick="sendOTP()">
         <div class="spinner" id="spin1"></div>
-        <span id="btnSendTxt">ENVOYER LE CODE →</span>
+        <span id="btnSendTxt">Envoyer le code →</span>
       </button>
       <div class="login-err" id="loginErr">❌ Identifiants incorrects</div>
     </div>
@@ -307,7 +334,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       </div>
       <button class="login-btn" id="btnVerify" onclick="verifyOTP()" disabled>
         <div class="spinner" id="spin2"></div>
-        <span id="btnVerifyTxt">VÉRIFIER LE CODE</span>
+        <span id="btnVerifyTxt">Vérifier le code</span>
       </button>
       <div class="login-err" id="otpErr">❌ Code incorrect ou expiré</div>
       <div class="login-info" id="otpInfo"></div>
@@ -322,7 +349,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
   <div class="topbar">
-    <div class="topbar-logo">Puff<span>Admin</span></div>
+    <div class="topbar-logo"><em>Puff</em><span>Admin</span></div>
     <div class="topbar-right">
       <div class="topbar-tag">⚡ Admin</div>
       <div class="topbar-badge" id="syncBadge">🔄 Firestore</div>
@@ -333,7 +360,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <!-- COMMANDES -->
     <div id="page-commandes">
       <div class="page-header">
-        <div class="page-title">COMMANDES</div>
+        <div class="page-title">Commandes</div>
         <div class="page-sub">Synchronisées Firestore en temps réel</div>
       </div>
       <div class="filters-row">
@@ -362,14 +389,14 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <!-- STATS -->
     <div id="page-stats" style="display:none">
       <div class="page-header">
-        <div class="page-title">STATISTIQUES</div>
+        <div class="page-title">Statistiques</div>
         <div class="page-sub">Aperçu des ventes</div>
       </div>
       <div class="stats-grid" id="statsGrid"></div>
-      <div class="section-title" style="margin-bottom:1rem">ARTICLES LES PLUS COMMANDÉS</div>
+      <div class="section-title" style="margin-bottom:1rem;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--muted2)">Articles les plus commandés</div>
       <div id="flavorsChart" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem"></div>
       <div class="danger-zone">
-        <div class="danger-zone-title">⚠️ ZONE DANGEREUSE</div>
+        <div class="danger-zone-title">⚠️ Zone dangereuse</div>
         <p>Ces actions sont irréversibles. Toutes les données seront supprimées définitivement de Firestore.</p>
         <div class="danger-zone-btns">
           <button class="btn-danger" onclick="askDeleteAll()">🗑 Supprimer toutes les commandes</button>
@@ -382,21 +409,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <!-- STOCK -->
     <div id="page-stock" style="display:none">
       <div class="page-header">
-        <div class="page-title">STOCK & GOÛTS</div>
+        <div class="page-title">Stock & Goûts</div>
         <div class="page-sub">Active ou désactive les goûts — synchronisé Firestore</div>
       </div>
       <div class="stock-grid" id="stockGrid"></div>
     </div>
 
-    <!-- BANS — Sélection depuis liste clients -->
+    <!-- BANS -->
     <div id="page-bans" style="display:none">
       <div class="page-header">
-        <div class="page-title">BAN COMPTE</div>
-        <div class="page-sub">Sélectionne un client dans la liste pour le bannir · Les clients bannis ne peuvent plus se connecter</div>
+        <div class="page-title">Bans</div>
+        <div class="page-sub">Les clients bannis ne peuvent plus se connecter ni commander · Vérification en temps réel</div>
       </div>
       <div class="ban-form-box">
-        <div class="ban-form-title">🚫 BANNIR UN CLIENT</div>
-        <div class="ban-form-sub">Choisis le client dans la liste des commandes</div>
+        <div class="ban-form-title">🚫 Bannir un client</div>
+        <div class="ban-form-sub">Choisis le client dans la liste des commandes enregistrées</div>
         <div class="ban-form-row">
           <select class="ban-select-client" id="banClientSelect" onchange="previewBanClient()">
             <option value="">— Sélectionner un client —</option>
@@ -410,14 +437,14 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
             <option value="30d">30 jours</option>
             <option value="permanent">🔒 Permanent</option>
           </select>
-          <button class="btn-ban" onclick="doBanSelectedClient()">🚫 BANNIR</button>
+          <button class="btn-ban" onclick="doBanSelectedClient()">🚫 Bannir</button>
         </div>
         <div class="ban-client-preview" id="banClientPreview">
           <strong id="banPrevName">—</strong>
           <div class="ban-prev-email" id="banPrevEmail">—</div>
         </div>
       </div>
-      <div class="section-title" style="margin-bottom:1rem">COMPTES BANNIS <span class="count-pill" id="bansCount">0</span></div>
+      <div class="section-title" style="margin-bottom:1rem;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--muted2)">Comptes bannis <span class="count-pill" id="bansCount">0</span></div>
       <div class="ban-grid" id="banGrid">
         <div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte banni</div></div>
       </div>
@@ -433,28 +460,20 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <span class="tb-notif" id="newDot"></span>
   </button>
   <div class="taskbar-sep"></div>
-  <button class="tb-btn" id="tb-stats" onclick="showPage('stats',this)">
-    <span class="tb-icon">📊</span>Stats
-  </button>
+  <button class="tb-btn" id="tb-stats" onclick="showPage('stats',this)"><span class="tb-icon">📊</span>Stats</button>
   <div class="taskbar-sep"></div>
-  <button class="tb-btn" id="tb-stock" onclick="showPage('stock',this)">
-    <span class="tb-icon">🏷</span>Stock
-  </button>
+  <button class="tb-btn" id="tb-stock" onclick="showPage('stock',this)"><span class="tb-icon">🏷</span>Stock</button>
   <div class="taskbar-sep"></div>
-  <button class="tb-btn" id="tb-bans" onclick="showPage('bans',this)">
-    <span class="tb-icon">🚫</span>Bans
-  </button>
+  <button class="tb-btn" id="tb-bans" onclick="showPage('bans',this)"><span class="tb-icon">🚫</span>Bans</button>
   <div class="taskbar-sep"></div>
-  <button class="tb-btn" onclick="logout()">
-    <span class="tb-icon">🚪</span>Quitter
-  </button>
+  <button class="tb-btn" onclick="logout()"><span class="tb-icon">🚪</span>Quitter</button>
 </div>
 
 <!-- DETAIL MODAL -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title" id="modalTitle">COMMANDE</span>
+      <span class="modal-title" id="modalTitle">Commande</span>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div id="modalContent"></div>
@@ -479,72 +498,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Expose db globalement pour deleteOrder
-window._db = db;
-window._deleteDoc = deleteDoc;
-window._doc = doc;
-window._updateDoc = updateDoc;
-window._setDoc = setDoc;
-window._writeBatch = writeBatch;
-window._collection = collection;
+window._db=db;window._deleteDoc=deleteDoc;window._doc=doc;
+window._updateDoc=updateDoc;window._setDoc=setDoc;window._writeBatch=writeBatch;window._collection=collection;
 
 const FLAVORS_LIST=["Strawberry Kiwi","Strawberry Watermelon Ice","Strawberry Ice","Strawberry Banana","Watermelon Ice","Watermelon Bubblegum","Cherry Watermelon Freeze","Cherry Berry","Cherry Ice","Cool Mint","Sour Apple Ice","Banana Ice","Peach Ice","Lemon Lime Ice","Blueberry Raspberry","Blueberry Raspberry Cherry","Blueberry Kiwi","Mixed Berries","Mr. Blue","Berry Burst","Skittles","Cherry Cola","Kiwi Watermelon Ice","Passion Fruit Kiwi","White Peach Razz","Blue Razz Cherry","Triple Melon"];
 const ICONS={"Strawberry Kiwi":"🍓","Strawberry Watermelon Ice":"🍓","Strawberry Ice":"🍓","Strawberry Banana":"🍌","Watermelon Ice":"🍉","Watermelon Bubblegum":"🍬","Cherry Watermelon Freeze":"🍒","Cherry Berry":"🍒","Cherry Ice":"🍒","Cool Mint":"🌿","Sour Apple Ice":"🍏","Banana Ice":"🍌","Peach Ice":"🍑","Lemon Lime Ice":"🍋","Blueberry Raspberry":"🫐","Blueberry Raspberry Cherry":"🫐","Blueberry Kiwi":"🫐","Mixed Berries":"🍇","Mr. Blue":"🫐","Berry Burst":"🍓","Skittles":"🍬","Cherry Cola":"🥤","Kiwi Watermelon Ice":"🥝","Passion Fruit Kiwi":"🥝","White Peach Razz":"🍑","Blue Razz Cherry":"🫐","Triple Melon":"🍉"};
 const GRADS={"Strawberry Kiwi":"linear-gradient(135deg,#ff6b9d,#2ed573)","Strawberry Watermelon Ice":"linear-gradient(135deg,#ff4757,#74b9ff)","Strawberry Ice":"linear-gradient(135deg,#ff6b9d,#74b9ff)","Strawberry Banana":"linear-gradient(135deg,#ff6b9d,#f9ca24)","Watermelon Ice":"linear-gradient(135deg,#2ed573,#74b9ff)","Watermelon Bubblegum":"linear-gradient(135deg,#fd79a8,#2ed573)","Cherry Watermelon Freeze":"linear-gradient(135deg,#d63031,#74b9ff)","Cherry Berry":"linear-gradient(135deg,#d63031,#6c5ce7)","Cherry Ice":"linear-gradient(135deg,#d63031,#74b9ff)","Cool Mint":"linear-gradient(135deg,#00b894,#55efc4)","Sour Apple Ice":"linear-gradient(135deg,#6ab04c,#74b9ff)","Banana Ice":"linear-gradient(135deg,#f9ca24,#74b9ff)","Peach Ice":"linear-gradient(135deg,#fd9644,#74b9ff)","Lemon Lime Ice":"linear-gradient(135deg,#f9ca24,#74b9ff)","Blueberry Raspberry":"linear-gradient(135deg,#6c5ce7,#e84393)","Blueberry Raspberry Cherry":"linear-gradient(135deg,#6c5ce7,#d63031)","Blueberry Kiwi":"linear-gradient(135deg,#6c5ce7,#00b894)","Mixed Berries":"linear-gradient(135deg,#6c5ce7,#ff4757)","Mr. Blue":"linear-gradient(135deg,#0984e3,#a29bfe)","Berry Burst":"linear-gradient(135deg,#e84393,#d63031)","Skittles":"linear-gradient(135deg,#e84393,#f9ca24,#6c5ce7)","Cherry Cola":"linear-gradient(135deg,#2d3436,#d63031)","Kiwi Watermelon Ice":"linear-gradient(135deg,#2ed573,#74b9ff)","Passion Fruit Kiwi":"linear-gradient(135deg,#f0932b,#6ab04c)","White Peach Razz":"linear-gradient(135deg,#ffeaa7,#a29bfe)","Blue Razz Cherry":"linear-gradient(135deg,#0984e3,#d63031)","Triple Melon":"linear-gradient(135deg,#2ed573,#55efc4)"};
 
-let orders = [];
-let stockCache = {};
-let bansCache = [];
-let knownOrderIds = null;
-let isFirstLoad = true;
-let newOrderIds = new Set();
+let orders=[],stockCache={},bansCache=[],knownOrderIds=null,isFirstLoad=true,newOrderIds=new Set();
 
-// ── DURÉE BAN ──
-function parseDuration(val){
-  if(val==="permanent")return null;
-  const map={"1h":3600000,"6h":21600000,"24h":86400000,"3d":259200000,"7d":604800000,"30d":2592000000};
-  return map[val]||3600000;
-}
-function formatRemaining(until){
-  const rem=until-Date.now();
-  if(rem<=0)return"Expiré";
-  const h=Math.floor(rem/3600000);
-  const m=Math.floor((rem%3600000)/60000);
-  if(h>24){const d=Math.floor(h/24);return d+"j "+h%24+"h";}
-  return h+"h "+m+"min";
-}
-function emailToDocId(email){ return email.replace(/\./g,"_").replace(/@/g,"__at__"); }
+function emailToDocId(e){return e.replace(/\./g,"_").replace(/@/g,"__at__");}
+function parseDuration(v){if(v==="permanent")return null;const m={"1h":3600000,"6h":21600000,"24h":86400000,"3d":259200000,"7d":604800000,"30d":2592000000};return m[v]||3600000;}
+function formatRemaining(until){const r=until-Date.now();if(r<=0)return"Expiré";const h=Math.floor(r/3600000);const m=Math.floor((r%3600000)/60000);if(h>24){const d=Math.floor(h/24);return d+"j "+h%24+"h";}return h+"h "+m+"min";}
 
-// ── POPULATE CLIENT SELECT pour le ban ──
 function populateBanClientSelect(){
   const sel=document.getElementById("banClientSelect");
-  // Déduplique par email
-  const seen=new Set();
-  const clients=[];
+  const seen=new Set();const clients=[];
   orders.forEach(o=>{
     const email=o.email||o.ip||"";
-    if(email&&!seen.has(email)){
-      seen.add(email);
-      clients.push({name:o.name||"?",email,phone:o.phone||"",snap:o.snap||""});
-    }
+    if(email&&!seen.has(email)){seen.add(email);clients.push({name:o.name||"?",email});}
   });
   const prev=sel.value;
   sel.innerHTML=`<option value="">— Sélectionner un client —</option>`;
   clients.sort((a,b)=>a.name.localeCompare(b.name));
-  clients.forEach(c=>{
-    const opt=document.createElement("option");
-    opt.value=c.email;
-    opt.textContent=`${c.name} — ${c.email}`;
-    opt.dataset.name=c.name;
-    sel.appendChild(opt);
-  });
+  clients.forEach(c=>{const opt=document.createElement("option");opt.value=c.email;opt.textContent=`${c.name} — ${c.email}`;opt.dataset.name=c.name;sel.appendChild(opt);});
   if(prev)sel.value=prev;
   previewBanClient();
 }
 
 window.previewBanClient=function(){
-  const sel=document.getElementById("banClientSelect");
-  const opt=sel.selectedOptions[0];
+  const sel=document.getElementById("banClientSelect");const opt=sel.selectedOptions[0];
   const prev=document.getElementById("banClientPreview");
   if(!sel.value){prev.style.display="none";return;}
   document.getElementById("banPrevName").textContent="👤 "+(opt.dataset.name||sel.value);
@@ -556,9 +539,8 @@ window.doBanSelectedClient=async function(){
   const email=document.getElementById("banClientSelect").value;
   const dur=document.getElementById("banDurSelect").value;
   if(!email){alert("Sélectionne un client !");return;}
-  const sel=document.getElementById("banClientSelect");
-  const name=sel.selectedOptions[0]?.dataset.name||email;
-  openConfirm("🚫","BANNIR CE CLIENT ?",`Bannir <strong style="color:var(--accent3)">${name}</strong> ?<br><span style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--muted2)">${email}</span><br><br>Durée : <strong>${dur}</strong>`,async()=>{
+  const name=document.getElementById("banClientSelect").selectedOptions[0]?.dataset.name||email;
+  openConfirm("🚫","Bannir ce client ?",`Bannir <strong style="color:var(--accent3)">${name}</strong> ?<br><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted2)">${email}</span><br><br>Durée : <strong>${dur}</strong>`,async()=>{
     const isPermanent=dur==="permanent";
     const durMs=parseDuration(dur);
     const until=isPermanent?9999999999999:Date.now()+durMs;
@@ -572,30 +554,23 @@ window.doBanSelectedClient=async function(){
 };
 
 window.doUnbanEmail=function(email){
-  openConfirm("✅","DÉBANNIR ?",`Débannir le compte <strong style="color:var(--accent4)">${email}</strong> ?`,async()=>{
+  openConfirm("✅","Débannir ?",`Débannir le compte <strong style="color:var(--accent2)">${email}</strong> ?`,async()=>{
     try{await deleteDoc(doc(db,"bans",emailToDocId(email)));loadBans();}catch(e){alert("Erreur : "+e.message);}
   });
 };
 
 window.loadBans=async function(){
-  try{
-    const snap=await getDocs(collection(db,"bans"));
-    bansCache=[];snap.forEach(d=>bansCache.push(d.data()));
-    renderBans();
-  }catch(e){console.error(e);}
+  try{const snap=await getDocs(collection(db,"bans"));bansCache=[];snap.forEach(d=>bansCache.push(d.data()));renderBans();}catch(e){console.error(e);}
 };
 
 function renderBans(){
   document.getElementById("bansCount").textContent=bansCache.length;
-  if(!bansCache.length){
-    document.getElementById("banGrid").innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte banni</div></div>`;
-    return;
-  }
+  if(!bansCache.length){document.getElementById("banGrid").innerHTML=`<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte banni</div></div>`;return;}
   document.getElementById("banGrid").innerHTML=bansCache.map(b=>`
     <div class="ban-card">
       <div style="flex:1;min-width:0">
         <div class="ban-ip">🚫 ${b.name||b.email||"—"}</div>
-        <div class="ban-type" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted2)">${b.email||"—"}</div>
+        <div class="ban-type" style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted2)">${b.email||"—"}</div>
         <div class="ban-type">${b.permanent?"🔒 Permanent":"⏳ Temporaire"}</div>
         <div class="ban-remain">${b.permanent?"—":formatRemaining(b.until)}</div>
       </div>
@@ -605,25 +580,14 @@ function renderBans(){
     </div>`).join("");
 }
 
-// ── BAN DEPUIS UNE COMMANDE (depuis tableau commandes) ──
 window.banFromOrder=function(email,name){
   if(!email||email==="unknown"){alert("Email inconnu pour cette commande.");return;}
-  // Pré-sélectionne dans le select de la page bans
   showPage("bans",document.getElementById("tb-bans"));
-  setTimeout(()=>{
-    const sel=document.getElementById("banClientSelect");
-    sel.value=email;
-    previewBanClient();
-  },100);
+  setTimeout(()=>{const sel=document.getElementById("banClientSelect");sel.value=email;previewBanClient();},100);
 };
 
-// ── NOTIFICATION ──
 function playNotifSound(){
-  try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    const play=(freq,start,dur,type="sine",vol=0.3)=>{const osc=ctx.createOscillator();const gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type=type;osc.frequency.value=freq;gain.gain.setValueAtTime(0,ctx.currentTime+start);gain.gain.linearRampToValueAtTime(vol,ctx.currentTime+start+0.01);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+start+dur);osc.start(ctx.currentTime+start);osc.stop(ctx.currentTime+start+dur+0.05);};
-    play(880,0,0.12,"sine",0.25);play(1100,0.1,0.12,"sine",0.25);play(1320,0.22,0.2,"sine",0.3);play(1760,0.35,0.3,"sine",0.2);
-  }catch(e){}
+  try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const play=(f,s,d,t="sine",v=0.3)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(0,ctx.currentTime+s);g.gain.linearRampToValueAtTime(v,ctx.currentTime+s+.01);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+s+d);o.start(ctx.currentTime+s);o.stop(ctx.currentTime+s+d+.05);};play(880,0,.12,"sine",.25);play(1100,.1,.12,"sine",.25);play(1320,.22,.2,"sine",.3);play(1760,.35,.3,"sine",.2);}catch(e){}
 }
 let notifTimer=null;
 function showNewOrderNotif(order){
@@ -634,15 +598,13 @@ function showNewOrderNotif(order){
   const card=document.getElementById("notifCard");
   const sub=document.getElementById("notifSub");
   sub.innerHTML=`<strong>${order.name||"Client"}</strong> — ${order.nb||0} article${(order.nb||0)>1?"s":""} · <strong>${order.total||0}€</strong><br>📍 ${order.zone||"?"} · ${order.date||""}`;
-  const oldBar=card.querySelector(".notif-progress");
-  if(oldBar)oldBar.remove();
+  const oldBar=card.querySelector(".notif-progress");if(oldBar)oldBar.remove();
   const bar=document.createElement("div");bar.className="notif-progress";card.appendChild(bar);
   card.classList.remove("hide");card.classList.add("show");
   clearTimeout(notifTimer);
   notifTimer=setTimeout(()=>{card.classList.remove("show");card.classList.add("hide");setTimeout(()=>card.classList.remove("hide"),400);},5000);
 }
 
-// ── COMMANDES ──
 window.loadOrders=async function(){
   document.getElementById("syncBadge").textContent="🔄 Chargement…";
   try{
@@ -651,8 +613,7 @@ window.loadOrders=async function(){
     orders.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
     updateNotifDot();
     document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
-    renderOrders();renderStats();
-    populateBanClientSelect();
+    renderOrders();renderStats();populateBanClientSelect();
   }catch(e){document.getElementById("syncBadge").textContent="❌ Erreur Firestore";}
 };
 
@@ -663,76 +624,49 @@ function updateNotifDot(){
 
 function startRealtimeOrders(){
   onSnapshot(collection(db,"orders"),snap=>{
-    const newOrders=[];
-    snap.forEach(d=>newOrders.push({firestoreId:d.id,...d.data()}));
+    const newOrders=[];snap.forEach(d=>newOrders.push({firestoreId:d.id,...d.data()}));
     newOrders.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
-    if(isFirstLoad){
-      knownOrderIds=new Set(newOrders.map(o=>o.firestoreId));
-      isFirstLoad=false;orders=newOrders;
-      updateNotifDot();
-      document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
-      renderOrders();renderStats();populateBanClientSelect();return;
-    }
+    if(isFirstLoad){knownOrderIds=new Set(newOrders.map(o=>o.firestoreId));isFirstLoad=false;orders=newOrders;updateNotifDot();document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";renderOrders();renderStats();populateBanClientSelect();return;}
     newOrderIds=new Set();
-    newOrders.forEach(o=>{
-      if(!knownOrderIds.has(o.firestoreId)){
-        newOrderIds.add(o.firestoreId);knownOrderIds.add(o.firestoreId);
-        showNewOrderNotif(o);
-      }
-    });
+    newOrders.forEach(o=>{if(!knownOrderIds.has(o.firestoreId)){newOrderIds.add(o.firestoreId);knownOrderIds.add(o.firestoreId);showNewOrderNotif(o);}});
     orders=newOrders;updateNotifDot();
     document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
     renderOrders();renderStats();populateBanClientSelect();
   });
 }
 
-// ── setStatus — expose globalement ──
 window.setStatus=async function(firestoreId,status){
-  try{
-    await updateDoc(doc(db,"orders",firestoreId),{status});
-  }catch(e){console.error("setStatus error:",e);}
+  try{await updateDoc(doc(db,"orders",firestoreId),{status});}catch(e){console.error("setStatus error:",e);}
 };
 
-// ── deleteOrder — CORRIGÉ : utilise les refs exposées globalement ──
 window.deleteOrder=function(firestoreId){
-  openConfirm("⚠️","SUPPRIMER ?","Cette commande sera supprimée définitivement.",async()=>{
+  openConfirm("⚠️","Supprimer ?","Cette commande sera supprimée définitivement.",async()=>{
     try{
       await window._deleteDoc(window._doc(window._db,"orders",firestoreId));
       if(knownOrderIds)knownOrderIds.delete(firestoreId);
-      // Retire de la liste locale immédiatement
       orders=orders.filter(o=>o.firestoreId!==firestoreId);
       renderOrders();renderStats();populateBanClientSelect();
       document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
-    }catch(e){
-      console.error("deleteOrder error:",e);
-      alert("Erreur suppression : "+e.message);
-    }
+    }catch(e){console.error("deleteOrder error:",e);alert("Erreur : "+e.message);}
   });
 };
 
 window.askDeleteAll=function(){
-  openConfirm("🗑","TOUT SUPPRIMER ?",`Tu vas supprimer <strong style="color:var(--accent3)">${orders.length} commande${orders.length>1?"s":""}</strong> définitivement. Cette action est irréversible.`,async()=>{
-    try{
-      const batch=writeBatch(db);
-      orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
-      await batch.commit();
-      knownOrderIds=new Set();orders=[];
-      renderOrders();renderStats();populateBanClientSelect();
-    }catch(e){console.error(e);alert("Erreur : "+e.message);}
+  openConfirm("🗑","Tout supprimer ?",`Supprimer <strong style="color:var(--accent3)">${orders.length} commande${orders.length>1?"s":""}</strong> définitivement ?`,async()=>{
+    try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];renderOrders();renderStats();populateBanClientSelect();}catch(e){console.error(e);}
   });
 };
 window.askResetStats=function(){
-  openConfirm("📊","REMETTRE LES STATS À ZÉRO ?","Toutes les commandes seront supprimées.",async()=>{
+  openConfirm("📊","Remettre à zéro ?","Toutes les commandes seront supprimées.",async()=>{
     try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];renderOrders();renderStats();}catch(e){console.error(e);}
   });
 };
 window.askResetStock=function(){
-  openConfirm("🔄","REMETTRE LE STOCK À ZÉRO ?","Tous les goûts seront remis en disponible.",async()=>{
+  openConfirm("🔄","Reset le stock ?","Tous les goûts seront remis en disponible.",async()=>{
     try{await setDoc(doc(db,"config","stock"),{});stockCache={};if(document.getElementById("page-stock").style.display!=="none")renderStock();}catch(e){console.error(e);}
   });
 };
 
-// ── CONFIRM DIALOG ──
 let confirmCallback=null;
 window.openConfirm=function(icon,title,msg,cb){
   document.getElementById("confirmIcon").textContent=icon;
@@ -741,16 +675,9 @@ window.openConfirm=function(icon,title,msg,cb){
   confirmCallback=cb;
   document.getElementById("confirmOverlay").classList.add("open");
 };
-window.closeConfirm=function(){
-  document.getElementById("confirmOverlay").classList.remove("open");confirmCallback=null;
-};
-document.getElementById("confirmYesBtn").onclick=async function(){
-  const cb=confirmCallback;
-  closeConfirm();
-  if(cb)await cb();
-};
+window.closeConfirm=function(){document.getElementById("confirmOverlay").classList.remove("open");confirmCallback=null;};
+document.getElementById("confirmYesBtn").onclick=async function(){const cb=confirmCallback;closeConfirm();if(cb)await cb();};
 
-// ── RENDER ORDERS ──
 window.renderOrders=function(){
   const sf=document.getElementById("statusFilter").value;
   const zf=document.getElementById("zoneFilter").value;
@@ -765,13 +692,10 @@ window.renderOrders=function(){
   const c=document.getElementById("ordersContainer");
   if(!filtered.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Aucune commande trouvée</div></div>`;return;}
   c.innerHTML=`<div class="table-wrap"><table class="orders-table">
-    <thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Articles</th><th>Total</th><th>Date</th><th>Compte</th><th>Statut</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Art.</th><th>Total</th><th>Date</th><th>Email</th><th>Statut</th><th>Actions</th></tr></thead>
     <tbody>${filtered.map(o=>`<tr class="${newOrderIds.has(o.firestoreId)?"new-order-row":""}">
       <td><div class="client-name">${o.name||"?"}</div></td>
-      <td>
-        ${o.phone?`<div class="client-phone">📞 ${o.phone}</div>`:""}
-        ${o.snap?`<div class="client-phone">👻 ${o.snap}</div>`:""}
-      </td>
+      <td>${o.phone?`<div class="client-phone">📞 ${o.phone}</div>`:""}${o.snap?`<div class="client-phone">👻 ${o.snap}</div>`:""}</td>
       <td><span class="zone-tag">${o.zone||"?"}</span></td>
       <td><div class="qty-badge">${o.nb||0}</div></td>
       <td><div class="total-badge">${o.total||0}€</div></td>
@@ -780,10 +704,10 @@ window.renderOrders=function(){
       <td>${statusBadge(o.status)}</td>
       <td><div class="action-btns">
         <button class="act-btn eye" title="Détail" onclick="openDetail('${o.firestoreId}')">👁</button>
-        <button class="act-btn ok"  title="Confirmer" onclick="setStatus('${o.firestoreId}','confirme')">✔</button>
+        <button class="act-btn ok" title="Confirmer" onclick="setStatus('${o.firestoreId}','confirme')">✔</button>
         <button class="act-btn done" title="Livré" onclick="setStatus('${o.firestoreId}','livre')">📦</button>
-        <button class="act-btn no"  title="Annuler" onclick="setStatus('${o.firestoreId}','annule')">✕</button>
-        <button class="act-btn ban-act" title="Bannir compte" onclick="banFromOrder('${(o.email||o.ip||"").replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}')">🚫</button>
+        <button class="act-btn no" title="Annuler" onclick="setStatus('${o.firestoreId}','annule')">✕</button>
+        <button class="act-btn ban-act" title="Bannir" onclick="banFromOrder('${(o.email||o.ip||"").replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}')">🚫</button>
         <button class="act-btn del" title="Supprimer" onclick="deleteOrder('${o.firestoreId}')">🗑</button>
       </div></td>
     </tr>`).join("")}</tbody>
@@ -792,47 +716,43 @@ window.renderOrders=function(){
 };
 
 function statusBadge(s){
-  const m={nouveau:'<span class="status-badge s-nouveau">🔵 NOUVEAU</span>',confirme:'<span class="status-badge s-confirme">🟡 CONFIRMÉ</span>',livre:'<span class="status-badge s-livre">✅ LIVRÉ</span>',annule:'<span class="status-badge s-annule">🔴 ANNULÉ</span>'};
+  const m={nouveau:'<span class="status-badge s-nouveau">🔵 Nouveau</span>',confirme:'<span class="status-badge s-confirme">🟡 Confirmé</span>',livre:'<span class="status-badge s-livre">✅ Livré</span>',annule:'<span class="status-badge s-annule">🔴 Annulé</span>'};
   return m[s]||`<span class="status-badge">${s||"—"}</span>`;
 }
 
 window.openDetail=function(firestoreId){
   const o=orders.find(x=>x.firestoreId===firestoreId);if(!o)return;
   const clientEmail=o.email||o.ip||"—";
-  document.getElementById("modalTitle").textContent="COMMANDE";
+  document.getElementById("modalTitle").textContent="Commande";
   document.getElementById("modalContent").innerHTML=`
     <div class="detail-row"><span class="detail-lbl">Client</span><span class="detail-val">${o.name||"—"}</span></div>
-    <div class="detail-row"><span class="detail-lbl">Email</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.78rem">${clientEmail}</span></div>
-    <div class="detail-row"><span class="detail-lbl">Téléphone</span><span class="detail-val">${o.phone||"—"}</span></div>
-    <div class="detail-row"><span class="detail-lbl">Snapchat</span><span class="detail-val">${o.snap||"—"}</span></div>
+    <div class="detail-row"><span class="detail-lbl">Email</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.76rem">${clientEmail}</span></div>
+    <div class="detail-row"><span class="detail-lbl">Tél.</span><span class="detail-val">${o.phone||"—"}</span></div>
+    <div class="detail-row"><span class="detail-lbl">Snap</span><span class="detail-val">${o.snap||"—"}</span></div>
     <div class="detail-row"><span class="detail-lbl">Zone</span><span class="detail-val"><span class="zone-tag">${o.zone||"—"}</span></span></div>
-    <div class="detail-row"><span class="detail-lbl">Date</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.8rem">${o.date||"—"}</span></div>
+    <div class="detail-row"><span class="detail-lbl">Date</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:.78rem">${o.date||"—"}</span></div>
     <div class="detail-row"><span class="detail-lbl">Statut</span><span class="detail-val">${statusBadge(o.status)}</span></div>
     ${o.msg?`<div class="detail-row"><span class="detail-lbl">Message</span><span class="detail-val" style="color:var(--muted2);font-style:italic">"${o.msg}"</span></div>`:""}
     <div class="items-box">
-      ${(o.items||[]).map(i=>`<div class="item-row">
-        <span>${i.icon||ICONS[i.nom]||"📦"} ${i.nom}</span>
-        <span class="item-price">${i.total||i.qty*i.prix}€</span>
-      </div>`).join("")}
+      ${(o.items||[]).map(i=>`<div class="item-row"><span>${i.icon||ICONS[i.nom]||"📦"} ${i.nom}</span><span class="item-price">${i.total||i.qty*i.prix}€</span></div>`).join("")}
     </div>
     <div class="total-row">
-      <span class="total-row-label">TOTAL</span>
+      <span class="total-row-label">Total</span>
       <span class="total-row-val">${o.total||0}€</span>
     </div>
     <div class="modal-actions">
-      <button class="modal-btn mb-confirm" onclick="setStatus('${firestoreId}','confirme');closeModal()">✔ CONFIRMER</button>
-      <button class="modal-btn mb-deliver" onclick="setStatus('${firestoreId}','livre');closeModal()">📦 LIVRÉ</button>
-      <button class="modal-btn mb-cancel"  onclick="setStatus('${firestoreId}','annule');closeModal()">✕ ANNULER</button>
-      <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3)" onclick="banFromOrder('${clientEmail.replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}');closeModal()">🚫 BAN COMPTE</button>
-      <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3);margin-top:4px;width:100%;flex:unset" onclick="closeModal();deleteOrder('${firestoreId}')">🗑 SUPPRIMER CETTE COMMANDE</button>
-      <button class="modal-btn mb-close" onclick="closeModal()">FERMER</button>
+      <button class="modal-btn mb-confirm" onclick="setStatus('${firestoreId}','confirme');closeModal()">✔ Confirmer</button>
+      <button class="modal-btn mb-deliver" onclick="setStatus('${firestoreId}','livre');closeModal()">📦 Livré</button>
+      <button class="modal-btn mb-cancel" onclick="setStatus('${firestoreId}','annule');closeModal()">✕ Annuler</button>
+      <button class="modal-btn" style="background:rgba(241,53,90,.08);border:1px solid rgba(241,53,90,.25);color:var(--accent3)" onclick="banFromOrder('${clientEmail.replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}');closeModal()">🚫 Ban</button>
+      <button class="modal-btn" style="background:rgba(241,53,90,.08);border:1px solid rgba(241,53,90,.25);color:var(--accent3);margin-top:4px;width:100%;flex:unset" onclick="closeModal();deleteOrder('${firestoreId}')">🗑 Supprimer</button>
+      <button class="modal-btn mb-close" onclick="closeModal()">Fermer</button>
     </div>`;
   document.getElementById("detailModal").classList.add("open");
 };
 window.closeModal=function(){document.getElementById("detailModal").classList.remove("open");};
 document.getElementById("detailModal").addEventListener("click",e=>{if(e.target===document.getElementById("detailModal"))closeModal();});
 
-// ── STATS ──
 window.renderStats=function(){
   const total=orders.reduce((s,o)=>s+(o.total||0),0);
   const nb=orders.reduce((s,o)=>s+(o.nb||0),0);
@@ -841,8 +761,8 @@ window.renderStats=function(){
   const nl=orders.filter(o=>o.status==="livre").length;
   const moy=orders.length?Math.round(total/orders.length):0;
   document.getElementById("statsGrid").innerHTML=[
-    {label:"Commandes totales",val:orders.length,sub:"depuis le début",color:"var(--accent)"},
-    {label:"Chiffre d'affaires",val:total+"€",sub:nb+" articles vendus",color:"var(--accent)"},
+    {label:"Commandes",val:orders.length,sub:"depuis le début",color:"var(--accent)"},
+    {label:"Chiffre d'affaires",val:total+"€",sub:nb+" articles",color:"var(--accent)"},
     {label:"Nouvelles",val:nn,sub:"à traiter",color:"var(--accent3)"},
     {label:"Confirmées",val:nc,sub:"attente retrait",color:"var(--warn)"},
     {label:"Livrées",val:nl,sub:"terminées",color:"var(--accent2)"},
@@ -865,7 +785,6 @@ window.renderStats=function(){
     :`<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-text">Aucune donnée</div></div>`;
 };
 
-// ── STOCK ──
 window.renderStock=async function(){
   try{const snap=await getDoc(doc(db,"config","stock"));stockCache=snap.exists()?snap.data():{};}catch(e){}
   document.getElementById("stockGrid").innerHTML=FLAVORS_LIST.map(nom=>{
@@ -886,7 +805,6 @@ window.toggleStock=async function(nom,val){
   try{await setDoc(doc(db,"config","stock"),{[nom]:val},{merge:true});stockCache[nom]=val;renderStock();}catch(e){console.error(e);}
 };
 
-// ── PAGES ──
 window.showPage=function(page,btn){
   ["commandes","stats","stock","bans"].forEach(p=>document.getElementById("page-"+p).style.display="none");
   document.getElementById("page-"+page).style.display="block";
@@ -901,8 +819,7 @@ window.enterDashboard=function(){
   document.getElementById("loginScreen").style.display="none";
   document.getElementById("dashboard").style.display="block";
   document.getElementById("taskbar").style.display="flex";
-  startRealtimeOrders();
-  renderStock();
+  startRealtimeOrders();renderStock();
 };
 
 window.logout=function(){
@@ -916,13 +833,12 @@ window.logout=function(){
   [0,1,2,3,4,5].forEach(i=>{const el=document.getElementById("d"+i);el.value="";el.classList.remove("filled");});
   document.getElementById("btnSendOTP").disabled=false;
   document.getElementById("spin1").style.display="none";
-  document.getElementById("btnSendTxt").textContent="ENVOYER LE CODE →";
+  document.getElementById("btnSendTxt").textContent="Envoyer le code →";
   document.getElementById("loginScreen").style.display="flex";
   document.getElementById("dashboard").style.display="none";
   document.getElementById("taskbar").style.display="none";
 };
 
-// ── TOUCHE SUPPR ──
 document.addEventListener("keydown",function(e){
   if(e.key!=="Delete")return;
   if(document.getElementById("dashboard").style.display==="none")return;
@@ -930,17 +846,9 @@ document.addEventListener("keydown",function(e){
   if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
   if(document.getElementById("confirmOverlay").classList.contains("open"))return;
   if(document.getElementById("detailModal").classList.contains("open"))return;
-  openConfirm("🗑","RESET TOTAL ?",
-    `La touche <strong>Suppr</strong> a été pressée.<br>Toutes les commandes (<strong style="color:var(--accent3)">${orders.length}</strong>) seront supprimées.<br><br>Confirmer ?`,
-    async()=>{
-      try{
-        const batch=writeBatch(db);
-        orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
-        await batch.commit();
-        knownOrderIds=new Set();orders=[];
-        renderOrders();renderStats();
-      }catch(err){console.error(err);}
-    }
+  openConfirm("🗑","Reset total ?",
+    `La touche <strong>Suppr</strong> a été pressée.<br>Supprimer <strong style="color:var(--accent3)">${orders.length}</strong> commandes ?`,
+    async()=>{try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];renderOrders();renderStats();}catch(err){console.error(err);}}
   );
 });
 </script>
@@ -975,7 +883,7 @@ async function sendOTP(){
     startOTPTimer();startResendCooldown();
   }catch(e){
     btn.disabled=false;document.getElementById("spin1").style.display="none";
-    document.getElementById("btnSendTxt").textContent="ENVOYER LE CODE →";
+    document.getElementById("btnSendTxt").textContent="Envoyer le code →";
     const err=document.getElementById("loginErr");
     err.textContent="❌ Erreur d'envoi. Vérifie ta connexion.";err.style.display="block";
     setTimeout(()=>err.style.display="none",4000);
