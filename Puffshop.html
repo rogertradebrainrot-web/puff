@@ -65,6 +65,7 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .price-strip{background:linear-gradient(90deg,var(--surface2),var(--surface3),var(--surface2));border-bottom:1px solid var(--border);text-align:center;padding:.7rem 2rem;font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:1.5px;color:var(--muted2);overflow:hidden;white-space:nowrap;overflow-x:auto}
 .price-strip strong{color:var(--accent)}
 .price-strip .sep{color:var(--muted);margin:0 8px}
+.price-strip .promo{color:var(--accent3);font-weight:700}
 
 /* HERO */
 .hero{padding:3rem 2rem 2rem;text-align:center;position:relative;overflow:hidden}
@@ -79,6 +80,9 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .badge.b{border-color:rgba(74,255,180,.3);color:var(--accent2);background:rgba(74,255,180,.05)}
 .badge.y{border-color:rgba(255,184,74,.3);color:#ffb84a;background:rgba(255,184,74,.05)}
 .badge.p{border-color:rgba(74,160,255,.3);color:var(--accent4);background:rgba(74,160,255,.05)}
+/* badge promo rouge */
+.badge.promo-badge{border-color:rgba(255,74,122,.5);color:var(--accent3);background:rgba(255,74,122,.08);font-weight:700;animation:promoPulse 2s ease-in-out infinite;}
+@keyframes promoPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,74,122,.3);}50%{box-shadow:0 0 0 6px rgba(255,74,122,.0);}}
 
 /* CATEGORY TABS */
 .cat-tabs{display:flex;overflow-x:auto;gap:8px;padding:1rem 2rem .5rem;scrollbar-width:none;justify-content:center;flex-wrap:wrap}
@@ -88,17 +92,17 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .cat-tab.active{background:rgba(212,255,74,.1);color:var(--accent);border-color:rgba(212,255,74,.3)}
 .cat-tab .cat-count{background:var(--surface3);color:var(--muted2);font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 7px;border-radius:99px}
 .cat-tab.active .cat-count{background:rgba(212,255,74,.15);color:var(--accent)}
-
-/* VERSION SELECTOR (for puffs) */
-.version-bar{display:flex;gap:8px;padding:.5rem 2rem;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto}
-.ver-chip{padding:7px 20px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted2);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;cursor:pointer;transition:all .2s;flex-shrink:0}
-.ver-chip:hover{background:var(--surface3);color:var(--text)}
-.ver-chip.active{border-color:var(--accent);background:rgba(212,255,74,.1);color:var(--accent)}
+/* tab 100K spécial promo */
+.cat-tab.promo-tab{border-color:rgba(255,74,122,.25);color:var(--accent3)}
+.cat-tab.promo-tab.active{background:rgba(255,74,122,.1);color:var(--accent3);border-color:rgba(255,74,122,.4)}
+.cat-tab.promo-tab .cat-count{background:rgba(255,74,122,.1);color:var(--accent3)}
 
 /* CATALOGUE */
 .cat-section{padding:.5rem 2rem 2rem;max-width:1200px;margin:0 auto}
 .section-title-row{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:4px;color:var(--muted2);margin-bottom:1rem;display:flex;align-items:center;gap:12px}
 .section-title-row .line{flex:1;height:1px;background:var(--border)}
+/* badge promo dans le titre de section */
+.promo-section-badge{background:var(--accent3);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:1px;padding:3px 10px;border-radius:99px;}
 .catalogue{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
 
 /* CARDS */
@@ -106,6 +110,9 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .card:hover{border-color:rgba(212,255,74,.3);transform:translateY(-5px) scale(1.01);box-shadow:0 16px 48px rgba(0,0,0,.4)}
 .card.out-of-stock{opacity:.4;pointer-events:none;filter:grayscale(.5)}
+/* carte 100K promo : bordure spéciale */
+.card.promo-card{border-color:rgba(255,74,122,.25);}
+.card.promo-card:hover{border-color:rgba(255,74,122,.5);box-shadow:0 16px 48px rgba(255,74,122,.15)}
 .card-img{height:160px;position:relative;overflow:hidden}
 .card-img .bg-grad{position:absolute;inset:0;opacity:.95}
 .card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 50%,rgba(0,0,0,.3) 100%)}
@@ -127,6 +134,8 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .stock-low{background:rgba(255,200,74,.15);color:#ffc84a;border:1px solid rgba(255,200,74,.3)}
 .stock-out{background:rgba(255,74,122,.15);color:var(--accent3);border:1px solid rgba(255,74,122,.3)}
 .oos-overlay{position:absolute;inset:0;z-index:6;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--accent3)}
+/* Badge promo flottant sur la carte */
+.promo-badge-card{position:absolute;top:9px;left:50%;transform:translateX(-50%);z-index:10;background:var(--accent3);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:1.5px;padding:4px 12px;border-radius:99px;white-space:nowrap;box-shadow:0 4px 16px rgba(255,74,122,.4);}
 .card-body{padding:.75rem 1rem .4rem;flex:1}
 .card-desc{font-size:.76rem;color:var(--muted2);line-height:1.5}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem 1rem;gap:8px}
@@ -138,14 +147,17 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .price.p18k{color:#ffb84a}
 .price.p28k{color:var(--accent3)}
 .price.p100k{color:var(--accent4)}
+.price.p100k-promo{color:var(--accent3)}
 .price.peliq{color:#b44aff}
 .price sup{font-size:.65rem;vertical-align:top;margin-top:4px}
 .price-box{font-size:.65rem;color:var(--muted);font-family:'DM Mono',monospace;margin-top:1px}
 .price-box strong{color:var(--warn)}
+/* Prix barré pour le 100K */
+.price-old{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);text-decoration:line-through;margin-right:4px;}
 .add-btn{background:var(--surface3);border:1px solid var(--border2);color:var(--text);padding:7px 14px;border-radius:99px;font-family:'Bricolage Grotesque',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1);flex-shrink:0}
 .add-btn:hover{background:var(--accent);color:#08090b;border-color:var(--accent);transform:scale(1.05)}
 
-/* ELIQUID CARD - special */
+/* ELIQUID CARD */
 .card.eliquid-card .card-img{height:140px}
 .eliquid-brand{position:absolute;z-index:4;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.6)}
 
@@ -155,7 +167,7 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 .box-option.active{background:rgba(212,255,74,.1);border-color:rgba(212,255,74,.3);color:var(--accent)}
 .box-option.box18.active{background:rgba(255,184,74,.1);border-color:rgba(255,184,74,.3);color:#ffb84a}
 .box-option.box28.active{background:rgba(255,74,122,.1);border-color:rgba(255,74,122,.3);color:var(--accent3)}
-.box-option.box100.active{background:rgba(74,160,255,.1);border-color:rgba(74,160,255,.3);color:var(--accent4)}
+.box-option.box100.active{background:rgba(255,74,122,.1);border-color:rgba(255,74,122,.3);color:var(--accent3)}
 .box-option.boxeliq.active{background:rgba(180,74,255,.1);border-color:rgba(180,74,255,.3);color:#b44aff}
 
 /* CART */
@@ -271,7 +283,7 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
     <span class="sep">|</span> 16K=<strong>8€</strong>
     <span class="sep">|</span> 18K=<strong>10€</strong>
     <span class="sep">|</span> 28K=<strong>15€</strong><span class="sep">·</span>Boîte=<strong>85€</strong>
-    <span class="sep">|</span> 100K=<strong>45€</strong><span class="sep">·</span>Boîte=<strong>140€</strong>
+    <span class="sep">|</span> 💎 100K=<span style="text-decoration:line-through;color:#666;font-size:.8em">45€</span> → <strong class="promo">30€ -33%</strong><span class="sep">·</span>Boîte=<strong class="promo">120€</strong>
     <span class="sep">|</span> Spleen/PTC=<strong>15€</strong><span class="sep">·</span>Boîte=<strong>70€</strong>
     <span class="sep">·</span> 📍 27400 · 76410 💸 Paiement à la remise
   </div>
@@ -294,7 +306,7 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
       <span class="badge g">16K = 8€</span>
       <span class="badge y">18K = 10€</span>
       <span class="badge" style="border-color:rgba(255,74,122,.3);color:var(--accent3);background:rgba(255,74,122,.05)">28K = 15€ · boîte 85€</span>
-      <span class="badge p">100K = 45€ · boîte 140€</span>
+      <span class="badge promo-badge">🔥 100K = <s style="opacity:.5">45€</s> → 30€ (-33%) · boîte 120€</span>
       <span class="badge" style="border-color:rgba(180,74,255,.3);color:#b44aff;background:rgba(180,74,255,.05)">Spleen/PTC 20ml = 15€ · boîte 70€</span>
       <span class="badge b">📍 27400 Louviers</span>
       <span class="badge b">📍 76410 Le Tître</span>
@@ -305,28 +317,28 @@ footer{border-top:1px solid var(--border);text-align:center;padding:1.25rem 2rem
   <!-- CATÉGORIES -->
   <div class="cat-tabs" id="catTabs">
     <button class="cat-tab active" onclick="setCategory('tous',this)" data-cat="tous">
-      🏪 Tous les produits <span class="cat-count" id="cc-tous">0</span>
+      🏪 Tous <span class="cat-count" id="cc-tous">0</span>
     </button>
     <button class="cat-tab" onclick="setCategory('puff9k',this)" data-cat="puff9k">
-      💚 Puff 9K <span class="cat-count" id="cc-puff9k">27</span>
+      💚 9K <span class="cat-count" id="cc-puff9k">27</span>
     </button>
     <button class="cat-tab" onclick="setCategory('puff12k',this)" data-cat="puff12k">
-      🌿 Puff 12K <span class="cat-count" id="cc-puff12k">27</span>
+      🌿 12K <span class="cat-count" id="cc-puff12k">27</span>
     </button>
     <button class="cat-tab" onclick="setCategory('puff16k',this)" data-cat="puff16k">
-      ⚡ Puff 16K <span class="cat-count" id="cc-puff16k">27</span>
+      ⚡ 16K <span class="cat-count" id="cc-puff16k">27</span>
     </button>
     <button class="cat-tab" onclick="setCategory('puff18k',this)" data-cat="puff18k">
-      🔶 Puff 18K <span class="cat-count" id="cc-puff18k">27</span>
+      🔶 18K <span class="cat-count" id="cc-puff18k">27</span>
     </button>
     <button class="cat-tab" onclick="setCategory('puff28k',this)" data-cat="puff28k">
-      🔴 Puff 28K <span class="cat-count" id="cc-puff28k">27</span>
+      🔴 28K <span class="cat-count" id="cc-puff28k">27</span>
     </button>
-    <button class="cat-tab" onclick="setCategory('puff100k',this)" data-cat="puff100k">
-      💎 Puff 100K <span class="cat-count" id="cc-puff100k">27</span>
+    <button class="cat-tab promo-tab" onclick="setCategory('puff100k',this)" data-cat="puff100k">
+      🔥 100K <span style="background:var(--accent3);color:#fff;font-size:.55rem;padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;font-weight:700">-33%</span> <span class="cat-count" id="cc-puff100k">27</span>
     </button>
     <button class="cat-tab" onclick="setCategory('eliquid',this)" data-cat="eliquid">
-      🧪 E-Liquides <span class="cat-count" id="cc-eliquid">2</span>
+      🧪 E-Liq <span class="cat-count" id="cc-eliquid">2</span>
     </button>
   </div>
 
@@ -477,20 +489,21 @@ const ELIQUIDS = [
    prixUnit:15, prixBoite:70, boiteQty:6},
 ];
 
+// ── MODÈLES — 100K PROMO 30€, boîte 120€ ──
 const PUFF_MODELS = [
-  {key:"puff9k",  label:"9K",   puffs:9000,  prixUnit:6,  prixBoite:55, boiteQty:10, pclass:"p9k",  tbclass:"tb-puff9k",  colorAccent:"var(--accent2)"},
-  {key:"puff12k", label:"12K",  puffs:12000, prixUnit:7,  prixBoite:65, boiteQty:10, pclass:"p12k", tbclass:"tb-puff12k", colorAccent:"var(--accent)"},
-  {key:"puff16k", label:"16K",  puffs:16000, prixUnit:8,  prixBoite:null,boiteQty:null,pclass:"p16k",tbclass:"tb-puff16k", colorAccent:"var(--accent)"},
-  {key:"puff18k", label:"18K",  puffs:18000, prixUnit:10, prixBoite:null,boiteQty:null,pclass:"p18k",tbclass:"tb-puff18k", colorAccent:"#ffb84a"},
-  {key:"puff28k", label:"28K",  puffs:28000, prixUnit:15, prixBoite:85, boiteQty:6,  pclass:"p28k", tbclass:"tb-puff28k", colorAccent:"var(--accent3)"},
-  {key:"puff100k",label:"100K", puffs:100000,prixUnit:45, prixBoite:140,boiteQty:4,  pclass:"p100k",tbclass:"tb-puff100k",colorAccent:"var(--accent4)"},
+  {key:"puff9k",  label:"9K",   puffs:9000,  prixUnit:6,  prixBoite:55, boiteQty:10, pclass:"p9k",  tbclass:"tb-puff9k",  promo:false},
+  {key:"puff12k", label:"12K",  puffs:12000, prixUnit:7,  prixBoite:65, boiteQty:10, pclass:"p12k", tbclass:"tb-puff12k", promo:false},
+  {key:"puff16k", label:"16K",  puffs:16000, prixUnit:8,  prixBoite:null,boiteQty:null,pclass:"p16k",tbclass:"tb-puff16k", promo:false},
+  {key:"puff18k", label:"18K",  puffs:18000, prixUnit:10, prixBoite:null,boiteQty:null,pclass:"p18k",tbclass:"tb-puff18k", promo:false},
+  {key:"puff28k", label:"28K",  puffs:28000, prixUnit:15, prixBoite:85, boiteQty:6,  pclass:"p28k", tbclass:"tb-puff28k", promo:false},
+  // 100K PROMO : prixUnit = 30€ (au lieu de 45€), prixBoite = 120€ (au lieu de 140€)
+  {key:"puff100k",label:"100K", puffs:100000,prixUnit:30, prixOld:45, prixBoite:120, prixBoiteOld:140, boiteQty:4, pclass:"p100k-promo",tbclass:"tb-puff100k",promo:true},
 ];
 
 let currentCategory = "tous";
 let panier = [];
 let currentUser = null;
 let stockCache = {};
-// boxMode: {productKey: 'unit'|'box'}  (productKey = "puff9k_Strawberry Kiwi" or "eliq-spleen")
 let boxMode = {};
 
 function emailToId(email){ return email.replace(/\./g,"_").replace(/@/g,"__at__"); }
@@ -630,7 +643,10 @@ function renderCatalogue(){
     : PUFF_MODELS.filter(m=>m.key===currentCategory);
 
   modelsToShow.forEach(model=>{
-    html+=`<div class="section-title-row">${model.label} — ${model.puffs.toLocaleString("fr")} PUFFS <div class="line"></div></div><div class="catalogue" style="margin-bottom:2rem">`;
+    const promoLabel = model.promo
+      ? `<span class="promo-section-badge">🔥 PROMO -33%</span>`
+      : "";
+    html+=`<div class="section-title-row">${model.label} — ${model.puffs.toLocaleString("fr")} PUFFS ${promoLabel} <div class="line"></div></div><div class="catalogue" style="margin-bottom:2rem">`;
     html+=PUFF_FLAVORS.map(f=>renderPuffCard(f,model)).join("");
     html+="</div>";
   });
@@ -678,24 +694,44 @@ function renderPuffCard(f,model){
   const oos=qty<=0;
   const hasBox=!!model.prixBoite;
   const boxCls="box"+model.label.replace("K","").toLowerCase();
-  return `<div class="card${oos?" out-of-stock":""}">
+  const isPromo=model.promo;
+
+  // Badge promo sur la carte 100K
+  const promoBadgeHtml = isPromo
+    ? `<div class="promo-badge-card">🔥 -33% PROMO</div>`
+    : "";
+
+  // Affichage du prix avec barré pour 100K
+  let prixAffiche = "";
+  if(isPromo && mode==="unit" && model.prixOld){
+    prixAffiche = `<span class="price-old">${model.prixOld}€</span>`;
+  }
+  if(isPromo && mode==="box" && model.prixBoiteOld){
+    prixAffiche = `<span class="price-old">${model.prixBoiteOld}€</span>`;
+  }
+
+  return `<div class="card${isPromo?" promo-card":""}${oos?" out-of-stock":""}">
+    ${promoBadgeHtml}
     <div class="card-img">
       <div class="bg-grad" style="background:${f.grad}"></div>
       <div class="puff-emoji">${f.icon}</div>
       <div class="flavor-emojis-bg">${f.emojis}</div>
       <div class="flavor-label"><span class="flavor-label-txt">${f.nom}</span></div>
-      <span class="type-badge ${model.tbclass}">${model.label} PUFFS</span>
+      <span class="type-badge ${model.tbclass}">${model.label} PUFFS${isPromo?" 🔥":""}</span>
       <span class="stock-tag ${sl.cls}">${sl.txt}</span>
       ${oos?'<div class="oos-overlay">RUPTURE</div>':""}
     </div>
     ${hasBox?`<div class="box-toggle">
-      <div class="box-option ${boxCls}${mode==="unit"?" active":""}" onclick="setBoxMode('${pkey.replace(/'/g,"\\'")}','unit')">1 puff — ${model.prixUnit}€</div>
-      <div class="box-option ${boxCls}${mode==="box"?" active":""}" onclick="setBoxMode('${pkey.replace(/'/g,"\\'")}','box')">📦 Boîte — ${model.prixBoite}€</div>
+      <div class="box-option ${boxCls}${mode==="unit"?" active":""}" onclick="setBoxMode('${pkey.replace(/'/g,"\\'")}','unit')">1 puff — ${model.prixUnit}€${isPromo?" 🔥":""}</div>
+      <div class="box-option ${boxCls}${mode==="box"?" active":""}" onclick="setBoxMode('${pkey.replace(/'/g,"\\'")}','box')">📦 Boîte — ${model.prixBoite}€${isPromo?" 🔥":""}</div>
     </div>`:""}
     <div class="card-body"><div class="card-desc">${f.desc}</div></div>
     <div class="card-footer">
       <div class="price-block">
-        <div class="price ${model.pclass}">${prix}<sup>€</sup></div>
+        <div style="display:flex;align-items:baseline;gap:4px">
+          ${prixAffiche}
+          <div class="price ${model.pclass}">${prix}<sup>€</sup></div>
+        </div>
         <div class="price-box">${hasBox&&mode==="box"?`<strong>Boîte</strong> (${model.boiteQty}u)`:hasBox?`Boîte <strong>${model.prixBoite}€</strong>`:`${model.puffs.toLocaleString("fr")} puffs`}</div>
       </div>
       <button class="add-btn" onclick="addToCart('${pkey.replace(/'/g,"\\'")}','puff',${model.prixUnit},${model.prixBoite||0},${model.boiteQty||0})">+ Ajouter</button>
@@ -815,7 +851,6 @@ window.confirmOrder=async function(){
     if(Object.keys(stockChanges).length>0)await updateStock(stockChanges);
     const total=panier.reduce((s,x)=>s+x.qty*x.prix,0);
     const nb=panier.reduce((s,x)=>s+x.qty,0);
-    // IP = email de l'utilisateur connecté
     await addDoc(collection(db,"orders"),{
       date:new Date().toLocaleString("fr-FR"),
       timestamp:Date.now(),
@@ -823,7 +858,7 @@ window.confirmOrder=async function(){
       phone:phone||currentUser.phone||"",
       snap:snap||currentUser.snap||"",
       email:currentUser.email,
-      ip:currentUser.email,  // IP remplacée par l'email du compte
+      ip:currentUser.email,
       zone,
       items:panier.map(i=>({nom:i.nom,icon:i.icon,qty:i.qty,prix:i.prix,total:i.qty*i.prix})),
       total,nb,
