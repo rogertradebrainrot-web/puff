@@ -123,7 +123,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .act-btn:hover.eye{background:rgba(74,160,255,.15);border-color:var(--accent4);color:var(--accent4)}
 .act-btn:hover.del{background:rgba(255,74,122,.15);border-color:var(--accent3);color:var(--accent3)}
 .act-btn:hover.ban-act{background:rgba(255,74,122,.2);border-color:var(--accent3);color:var(--accent3)}
-/* identifiant = email, pas IP */
 .email-tag{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);background:var(--surface3);padding:2px 7px;border-radius:5px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;}
 
 /* MODAL */
@@ -179,7 +178,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .stock-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#07080a;transition:transform .2s cubic-bezier(.34,1.56,.64,1);}
 .stock-toggle.on::after{transform:translateX(16px)}
 
-/* BAN PAGE — maintenant "ban email" */
+/* BAN PAGE — Sélection depuis liste clients */
 .ban-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;}
 .ban-card{background:var(--surface);border:1px solid rgba(255,74,122,.2);border-radius:var(--r);padding:1.1rem;display:flex;align-items:center;gap:12px;transition:all .2s;}
 .ban-card:hover{background:var(--surface2)}
@@ -189,15 +188,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .ban-actions{margin-left:auto;display:flex;gap:6px;flex-shrink:0}
 .unban-btn{padding:6px 12px;border-radius:8px;border:1px solid rgba(74,255,180,.3);background:rgba(74,255,180,.08);color:var(--accent2);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Bricolage Grotesque',sans-serif;}
 .unban-btn:hover{background:var(--accent2);color:#07080a;border-color:var(--accent2)}
+
+/* BAN FORM — Sélection client */
 .ban-form-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.5rem;margin-bottom:2rem;}
-.ban-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--accent3);margin-bottom:1rem;}
+.ban-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--accent3);margin-bottom:.5rem;}
+.ban-form-sub{font-size:.78rem;color:var(--muted2);margin-bottom:1rem;}
 .ban-form-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.ban-input{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'DM Mono',monospace;font-size:.85rem;outline:none;transition:all .2s;flex:1;min-width:200px;}
-.ban-input:focus{border-color:var(--accent3);box-shadow:0 0 0 3px rgba(255,74,122,.1)}
+.ban-select-client{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.85rem;outline:none;cursor:pointer;transition:all .2s;flex:1;min-width:220px;}
+.ban-select-client:focus{border-color:var(--accent3);box-shadow:0 0 0 3px rgba(255,74,122,.1)}
 .ban-select{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 14px;font-family:'Bricolage Grotesque',sans-serif;font-size:.85rem;outline:none;cursor:pointer;transition:all .2s;}
 .ban-select:focus{border-color:var(--accent3)}
 .btn-ban{padding:9px 20px;border-radius:10px;border:none;background:var(--accent3);color:#fff;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:.85rem;cursor:pointer;transition:all .2s;}
 .btn-ban:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.ban-client-preview{background:rgba(255,74,122,.06);border:1px solid rgba(255,74,122,.2);border-radius:10px;padding:.75rem 1rem;margin-top:.75rem;display:none;font-size:.82rem;}
+.ban-client-preview strong{color:var(--accent3)}
+.ban-client-preview .ban-prev-email{font-family:'DM Mono',monospace;color:var(--muted2);font-size:.75rem;margin-top:3px}
 
 /* DANGER ZONE */
 .danger-zone{background:rgba(255,74,122,.04);border:1px solid rgba(255,74,122,.2);border-radius:var(--r);padding:1.5rem;margin-top:2rem;}
@@ -321,7 +326,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div class="topbar-right">
       <div class="topbar-tag">⚡ Admin</div>
       <div class="topbar-badge" id="syncBadge">🔄 Firestore</div>
-      <div class="topbar-badge" style="font-size:.7rem;color:var(--muted)">🗑 Suppr = reset (hors saisie)</div>
     </div>
   </div>
   <div class="main">
@@ -330,7 +334,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <div id="page-commandes">
       <div class="page-header">
         <div class="page-title">COMMANDES</div>
-        <div class="page-sub">Synchronisées Firestore en temps réel · <kbd style="background:var(--surface3);padding:2px 6px;border-radius:5px;font-family:'DM Mono',monospace;font-size:.8rem">Suppr</kbd> (hors champ de texte) pour tout remettre à zéro</div>
+        <div class="page-sub">Synchronisées Firestore en temps réel</div>
       </div>
       <div class="filters-row">
         <select class="flt-select" id="statusFilter" onchange="renderOrders()">
@@ -384,16 +388,19 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <div class="stock-grid" id="stockGrid"></div>
     </div>
 
-    <!-- BANS (maintenant ban par email) -->
+    <!-- BANS — Sélection depuis liste clients -->
     <div id="page-bans" style="display:none">
       <div class="page-header">
         <div class="page-title">BAN COMPTE</div>
-        <div class="page-sub">Bannir / débannir des comptes par email · Les clients bannis ne peuvent plus se connecter</div>
+        <div class="page-sub">Sélectionne un client dans la liste pour le bannir · Les clients bannis ne peuvent plus se connecter</div>
       </div>
       <div class="ban-form-box">
-        <div class="ban-form-title">🚫 BANNIR UN COMPTE</div>
+        <div class="ban-form-title">🚫 BANNIR UN CLIENT</div>
+        <div class="ban-form-sub">Choisis le client dans la liste des commandes</div>
         <div class="ban-form-row">
-          <input class="ban-input" type="email" id="banEmailInput" placeholder="Ex: client@email.com">
+          <select class="ban-select-client" id="banClientSelect" onchange="previewBanClient()">
+            <option value="">— Sélectionner un client —</option>
+          </select>
           <select class="ban-select" id="banDurSelect">
             <option value="1h">1 heure</option>
             <option value="6h">6 heures</option>
@@ -403,7 +410,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
             <option value="30d">30 jours</option>
             <option value="permanent">🔒 Permanent</option>
           </select>
-          <button class="btn-ban" onclick="doBanEmail()">🚫 BANNIR</button>
+          <button class="btn-ban" onclick="doBanSelectedClient()">🚫 BANNIR</button>
+        </div>
+        <div class="ban-client-preview" id="banClientPreview">
+          <strong id="banPrevName">—</strong>
+          <div class="ban-prev-email" id="banPrevEmail">—</div>
         </div>
       </div>
       <div class="section-title" style="margin-bottom:1rem">COMPTES BANNIS <span class="count-pill" id="bansCount">0</span></div>
@@ -468,6 +479,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Expose db globalement pour deleteOrder
+window._db = db;
+window._deleteDoc = deleteDoc;
+window._doc = doc;
+window._updateDoc = updateDoc;
+window._setDoc = setDoc;
+window._writeBatch = writeBatch;
+window._collection = collection;
+
 const FLAVORS_LIST=["Strawberry Kiwi","Strawberry Watermelon Ice","Strawberry Ice","Strawberry Banana","Watermelon Ice","Watermelon Bubblegum","Cherry Watermelon Freeze","Cherry Berry","Cherry Ice","Cool Mint","Sour Apple Ice","Banana Ice","Peach Ice","Lemon Lime Ice","Blueberry Raspberry","Blueberry Raspberry Cherry","Blueberry Kiwi","Mixed Berries","Mr. Blue","Berry Burst","Skittles","Cherry Cola","Kiwi Watermelon Ice","Passion Fruit Kiwi","White Peach Razz","Blue Razz Cherry","Triple Melon"];
 const ICONS={"Strawberry Kiwi":"🍓","Strawberry Watermelon Ice":"🍓","Strawberry Ice":"🍓","Strawberry Banana":"🍌","Watermelon Ice":"🍉","Watermelon Bubblegum":"🍬","Cherry Watermelon Freeze":"🍒","Cherry Berry":"🍒","Cherry Ice":"🍒","Cool Mint":"🌿","Sour Apple Ice":"🍏","Banana Ice":"🍌","Peach Ice":"🍑","Lemon Lime Ice":"🍋","Blueberry Raspberry":"🫐","Blueberry Raspberry Cherry":"🫐","Blueberry Kiwi":"🫐","Mixed Berries":"🍇","Mr. Blue":"🫐","Berry Burst":"🍓","Skittles":"🍬","Cherry Cola":"🥤","Kiwi Watermelon Ice":"🥝","Passion Fruit Kiwi":"🥝","White Peach Razz":"🍑","Blue Razz Cherry":"🫐","Triple Melon":"🍉"};
 const GRADS={"Strawberry Kiwi":"linear-gradient(135deg,#ff6b9d,#2ed573)","Strawberry Watermelon Ice":"linear-gradient(135deg,#ff4757,#74b9ff)","Strawberry Ice":"linear-gradient(135deg,#ff6b9d,#74b9ff)","Strawberry Banana":"linear-gradient(135deg,#ff6b9d,#f9ca24)","Watermelon Ice":"linear-gradient(135deg,#2ed573,#74b9ff)","Watermelon Bubblegum":"linear-gradient(135deg,#fd79a8,#2ed573)","Cherry Watermelon Freeze":"linear-gradient(135deg,#d63031,#74b9ff)","Cherry Berry":"linear-gradient(135deg,#d63031,#6c5ce7)","Cherry Ice":"linear-gradient(135deg,#d63031,#74b9ff)","Cool Mint":"linear-gradient(135deg,#00b894,#55efc4)","Sour Apple Ice":"linear-gradient(135deg,#6ab04c,#74b9ff)","Banana Ice":"linear-gradient(135deg,#f9ca24,#74b9ff)","Peach Ice":"linear-gradient(135deg,#fd9644,#74b9ff)","Lemon Lime Ice":"linear-gradient(135deg,#f9ca24,#74b9ff)","Blueberry Raspberry":"linear-gradient(135deg,#6c5ce7,#e84393)","Blueberry Raspberry Cherry":"linear-gradient(135deg,#6c5ce7,#d63031)","Blueberry Kiwi":"linear-gradient(135deg,#6c5ce7,#00b894)","Mixed Berries":"linear-gradient(135deg,#6c5ce7,#ff4757)","Mr. Blue":"linear-gradient(135deg,#0984e3,#a29bfe)","Berry Burst":"linear-gradient(135deg,#e84393,#d63031)","Skittles":"linear-gradient(135deg,#e84393,#f9ca24,#6c5ce7)","Cherry Cola":"linear-gradient(135deg,#2d3436,#d63031)","Kiwi Watermelon Ice":"linear-gradient(135deg,#2ed573,#74b9ff)","Passion Fruit Kiwi":"linear-gradient(135deg,#f0932b,#6ab04c)","White Peach Razz":"linear-gradient(135deg,#ffeaa7,#a29bfe)","Blue Razz Cherry":"linear-gradient(135deg,#0984e3,#d63031)","Triple Melon":"linear-gradient(135deg,#2ed573,#55efc4)"};
@@ -493,22 +513,62 @@ function formatRemaining(until){
   if(h>24){const d=Math.floor(h/24);return d+"j "+h%24+"h";}
   return h+"h "+m+"min";
 }
-// Utilise l'email comme clé (remplace les . et @ pour doc ID Firestore)
 function emailToDocId(email){ return email.replace(/\./g,"_").replace(/@/g,"__at__"); }
 
-// ── BAN PAR EMAIL ──
-window.doBanEmail=async function(){
-  const email=document.getElementById("banEmailInput").value.trim().toLowerCase();
+// ── POPULATE CLIENT SELECT pour le ban ──
+function populateBanClientSelect(){
+  const sel=document.getElementById("banClientSelect");
+  // Déduplique par email
+  const seen=new Set();
+  const clients=[];
+  orders.forEach(o=>{
+    const email=o.email||o.ip||"";
+    if(email&&!seen.has(email)){
+      seen.add(email);
+      clients.push({name:o.name||"?",email,phone:o.phone||"",snap:o.snap||""});
+    }
+  });
+  const prev=sel.value;
+  sel.innerHTML=`<option value="">— Sélectionner un client —</option>`;
+  clients.sort((a,b)=>a.name.localeCompare(b.name));
+  clients.forEach(c=>{
+    const opt=document.createElement("option");
+    opt.value=c.email;
+    opt.textContent=`${c.name} — ${c.email}`;
+    opt.dataset.name=c.name;
+    sel.appendChild(opt);
+  });
+  if(prev)sel.value=prev;
+  previewBanClient();
+}
+
+window.previewBanClient=function(){
+  const sel=document.getElementById("banClientSelect");
+  const opt=sel.selectedOptions[0];
+  const prev=document.getElementById("banClientPreview");
+  if(!sel.value){prev.style.display="none";return;}
+  document.getElementById("banPrevName").textContent="👤 "+(opt.dataset.name||sel.value);
+  document.getElementById("banPrevEmail").textContent=sel.value;
+  prev.style.display="block";
+};
+
+window.doBanSelectedClient=async function(){
+  const email=document.getElementById("banClientSelect").value;
   const dur=document.getElementById("banDurSelect").value;
-  if(!email){alert("Saisir un email !");return;}
-  const isPermanent=dur==="permanent";
-  const durMs=parseDuration(dur);
-  const until=isPermanent?9999999999999:Date.now()+durMs;
-  try{
-    await setDoc(doc(db,"bans",emailToDocId(email)),{email,permanent:isPermanent,until,bannedAt:Date.now()});
-    document.getElementById("banEmailInput").value="";
-    loadBans();
-  }catch(e){alert("Erreur : "+e.message);}
+  if(!email){alert("Sélectionne un client !");return;}
+  const sel=document.getElementById("banClientSelect");
+  const name=sel.selectedOptions[0]?.dataset.name||email;
+  openConfirm("🚫","BANNIR CE CLIENT ?",`Bannir <strong style="color:var(--accent3)">${name}</strong> ?<br><span style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--muted2)">${email}</span><br><br>Durée : <strong>${dur}</strong>`,async()=>{
+    const isPermanent=dur==="permanent";
+    const durMs=parseDuration(dur);
+    const until=isPermanent?9999999999999:Date.now()+durMs;
+    try{
+      await setDoc(doc(db,"bans",emailToDocId(email)),{email,name,permanent:isPermanent,until,bannedAt:Date.now()});
+      document.getElementById("banClientSelect").value="";
+      document.getElementById("banClientPreview").style.display="none";
+      loadBans();
+    }catch(e){alert("Erreur : "+e.message);}
+  });
 };
 
 window.doUnbanEmail=function(email){
@@ -534,21 +594,27 @@ function renderBans(){
   document.getElementById("banGrid").innerHTML=bansCache.map(b=>`
     <div class="ban-card">
       <div style="flex:1;min-width:0">
-        <div class="ban-ip">🚫 ${b.email||b.ip||"—"}</div>
+        <div class="ban-ip">🚫 ${b.name||b.email||"—"}</div>
+        <div class="ban-type" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted2)">${b.email||"—"}</div>
         <div class="ban-type">${b.permanent?"🔒 Permanent":"⏳ Temporaire"}</div>
         <div class="ban-remain">${b.permanent?"—":formatRemaining(b.until)}</div>
       </div>
       <div class="ban-actions">
-        <button class="unban-btn" onclick="doUnbanEmail('${(b.email||b.ip||"").replace(/'/g,"\\'")}')">✅ Débannir</button>
+        <button class="unban-btn" onclick="doUnbanEmail('${(b.email||"").replace(/'/g,"\\'")}')">✅ Débannir</button>
       </div>
     </div>`).join("");
 }
 
-// ── BAN DEPUIS UNE COMMANDE (par email du client) ──
+// ── BAN DEPUIS UNE COMMANDE (depuis tableau commandes) ──
 window.banFromOrder=function(email,name){
   if(!email||email==="unknown"){alert("Email inconnu pour cette commande.");return;}
-  document.getElementById("banEmailInput").value=email;
+  // Pré-sélectionne dans le select de la page bans
   showPage("bans",document.getElementById("tb-bans"));
+  setTimeout(()=>{
+    const sel=document.getElementById("banClientSelect");
+    sel.value=email;
+    previewBanClient();
+  },100);
 };
 
 // ── NOTIFICATION ──
@@ -586,6 +652,7 @@ window.loadOrders=async function(){
     updateNotifDot();
     document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
     renderOrders();renderStats();
+    populateBanClientSelect();
   }catch(e){document.getElementById("syncBadge").textContent="❌ Erreur Firestore";}
 };
 
@@ -604,7 +671,7 @@ function startRealtimeOrders(){
       isFirstLoad=false;orders=newOrders;
       updateNotifDot();
       document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
-      renderOrders();renderStats();return;
+      renderOrders();renderStats();populateBanClientSelect();return;
     }
     newOrderIds=new Set();
     newOrders.forEach(o=>{
@@ -615,17 +682,31 @@ function startRealtimeOrders(){
     });
     orders=newOrders;updateNotifDot();
     document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
-    renderOrders();renderStats();
+    renderOrders();renderStats();populateBanClientSelect();
   });
 }
 
+// ── setStatus — expose globalement ──
 window.setStatus=async function(firestoreId,status){
-  try{await updateDoc(doc(db,"orders",firestoreId),{status});}catch(e){console.error(e);}
+  try{
+    await updateDoc(doc(db,"orders",firestoreId),{status});
+  }catch(e){console.error("setStatus error:",e);}
 };
 
+// ── deleteOrder — CORRIGÉ : utilise les refs exposées globalement ──
 window.deleteOrder=function(firestoreId){
   openConfirm("⚠️","SUPPRIMER ?","Cette commande sera supprimée définitivement.",async()=>{
-    try{await deleteDoc(doc(db,"orders",firestoreId));knownOrderIds.delete(firestoreId);}catch(e){console.error(e);}
+    try{
+      await window._deleteDoc(window._doc(window._db,"orders",firestoreId));
+      if(knownOrderIds)knownOrderIds.delete(firestoreId);
+      // Retire de la liste locale immédiatement
+      orders=orders.filter(o=>o.firestoreId!==firestoreId);
+      renderOrders();renderStats();populateBanClientSelect();
+      document.getElementById("syncBadge").textContent="✅ "+orders.length+" commandes";
+    }catch(e){
+      console.error("deleteOrder error:",e);
+      alert("Erreur suppression : "+e.message);
+    }
   });
 };
 
@@ -636,12 +717,13 @@ window.askDeleteAll=function(){
       orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
       await batch.commit();
       knownOrderIds=new Set();orders=[];
-    }catch(e){console.error(e);}
+      renderOrders();renderStats();populateBanClientSelect();
+    }catch(e){console.error(e);alert("Erreur : "+e.message);}
   });
 };
 window.askResetStats=function(){
   openConfirm("📊","REMETTRE LES STATS À ZÉRO ?","Toutes les commandes seront supprimées.",async()=>{
-    try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];}catch(e){console.error(e);}
+    try{const batch=writeBatch(db);orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));await batch.commit();knownOrderIds=new Set();orders=[];renderOrders();renderStats();}catch(e){console.error(e);}
   });
 };
 window.askResetStock=function(){
@@ -662,7 +744,11 @@ window.openConfirm=function(icon,title,msg,cb){
 window.closeConfirm=function(){
   document.getElementById("confirmOverlay").classList.remove("open");confirmCallback=null;
 };
-document.getElementById("confirmYesBtn").onclick=async function(){closeConfirm();if(confirmCallback)await confirmCallback();};
+document.getElementById("confirmYesBtn").onclick=async function(){
+  const cb=confirmCallback;
+  closeConfirm();
+  if(cb)await cb();
+};
 
 // ── RENDER ORDERS ──
 window.renderOrders=function(){
@@ -678,7 +764,6 @@ window.renderOrders=function(){
   document.getElementById("ordersCount").textContent=filtered.length;
   const c=document.getElementById("ordersContainer");
   if(!filtered.length){c.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Aucune commande trouvée</div></div>`;return;}
-  // ip field = email du client
   c.innerHTML=`<div class="table-wrap"><table class="orders-table">
     <thead><tr><th>Client</th><th>Contact</th><th>Zone</th><th>Articles</th><th>Total</th><th>Date</th><th>Compte</th><th>Statut</th><th>Actions</th></tr></thead>
     <tbody>${filtered.map(o=>`<tr class="${newOrderIds.has(o.firestoreId)?"new-order-row":""}">
@@ -739,6 +824,7 @@ window.openDetail=function(firestoreId){
       <button class="modal-btn mb-deliver" onclick="setStatus('${firestoreId}','livre');closeModal()">📦 LIVRÉ</button>
       <button class="modal-btn mb-cancel"  onclick="setStatus('${firestoreId}','annule');closeModal()">✕ ANNULER</button>
       <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3)" onclick="banFromOrder('${clientEmail.replace(/'/g,"\\'")}','${(o.name||"").replace(/'/g,"\\'")}');closeModal()">🚫 BAN COMPTE</button>
+      <button class="modal-btn" style="background:rgba(255,74,122,.12);border:1px solid var(--accent3);color:var(--accent3);margin-top:4px;width:100%;flex:unset" onclick="closeModal();deleteOrder('${firestoreId}')">🗑 SUPPRIMER CETTE COMMANDE</button>
       <button class="modal-btn mb-close" onclick="closeModal()">FERMER</button>
     </div>`;
   document.getElementById("detailModal").classList.add("open");
@@ -808,7 +894,7 @@ window.showPage=function(page,btn){
   if(btn)btn.classList.add("active");
   if(page==="stats")renderStats();
   if(page==="stock")renderStock();
-  if(page==="bans")loadBans();
+  if(page==="bans"){loadBans();populateBanClientSelect();}
 };
 
 window.enterDashboard=function(){
@@ -836,18 +922,14 @@ window.logout=function(){
   document.getElementById("taskbar").style.display="none";
 };
 
-// ── TOUCHE SUPPR — CORRIGÉ ──
-// Ne se déclenche que si on n'est PAS dans un champ de saisie
+// ── TOUCHE SUPPR ──
 document.addEventListener("keydown",function(e){
   if(e.key!=="Delete")return;
   if(document.getElementById("dashboard").style.display==="none")return;
-  // Vérifie que le focus n'est PAS dans un input/textarea/select
   const tag=document.activeElement?document.activeElement.tagName:"";
   if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT")return;
-  // Vérifie aussi les modales ouvertes
   if(document.getElementById("confirmOverlay").classList.contains("open"))return;
   if(document.getElementById("detailModal").classList.contains("open"))return;
-  // Déclenche la confirmation
   openConfirm("🗑","RESET TOTAL ?",
     `La touche <strong>Suppr</strong> a été pressée.<br>Toutes les commandes (<strong style="color:var(--accent3)">${orders.length}</strong>) seront supprimées.<br><br>Confirmer ?`,
     async()=>{
@@ -856,6 +938,7 @@ document.addEventListener("keydown",function(e){
         orders.forEach(o=>batch.delete(doc(db,"orders",o.firestoreId)));
         await batch.commit();
         knownOrderIds=new Set();orders=[];
+        renderOrders();renderStats();
       }catch(err){console.error(err);}
     }
   );
