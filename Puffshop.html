@@ -348,6 +348,59 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
 .toast.err{border-color:rgba(241,53,90,.4);color:var(--red)}
 
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--s4);border-radius:99px}
+
+/* ── LIVRAISON ── */
+.delivery-choice{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.dopt{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:var(--r2);
+  border:1.5px solid var(--b2);background:var(--s2);cursor:pointer;transition:all .18s;user-select:none;position:relative}
+.dopt:hover{border-color:var(--b3);background:var(--s3)}
+.dopt.on-green{border-color:var(--lime);background:rgba(200,241,53,.07)}
+.dopt.on-blue{border-color:var(--blue);background:rgba(76,142,247,.08)}
+.dradio{width:18px;height:18px;border-radius:50%;border:2px solid var(--b3);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:all .18s}
+.dopt.on-green .dradio{border-color:var(--lime);background:var(--lime)}
+.dopt.on-blue .dradio{border-color:var(--blue);background:var(--blue)}
+.dradio::after{content:'';width:7px;height:7px;border-radius:50%;background:#08090c;opacity:0;transition:opacity .15s}
+.dopt.on-green .dradio::after,.dopt.on-blue .dradio::after{opacity:1}
+.dico{font-size:1.3rem;flex-shrink:0}
+.dinfo{flex:1;min-width:0}
+.dname{font-family:var(--font);font-weight:700;font-size:.9rem;color:var(--fg)}
+.ddesc{font-size:.75rem;color:var(--fg3);margin-top:2px;line-height:1.4}
+.dprice{font-family:var(--mono);font-weight:800;font-size:.88rem;flex-shrink:0;white-space:nowrap}
+.dprice.free{color:var(--mint)}
+.dprice.paid{color:var(--blue)}
+.dnew{position:absolute;top:-1px;right:13px;background:var(--blue);color:#fff;
+  font-size:.58rem;font-weight:800;padding:3px 9px;border-radius:0 0 8px 8px;
+  letter-spacing:.5px;text-transform:uppercase;font-family:var(--font)}
+
+/* adresse livraison */
+.addr-block{background:var(--s2);border:1px solid rgba(76,142,247,.18);border-radius:var(--r2);
+  padding:1rem 1.1rem;margin-bottom:1rem;display:none}
+.addr-block.show{display:block}
+.addr-title{font-family:var(--font);font-size:.7rem;font-weight:800;color:var(--blue);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:.85rem}
+.addr-in{width:100%;background:var(--s3);border:1.5px solid var(--b2);color:var(--fg);
+  border-radius:10px;padding:11px 13px;font-family:var(--body);font-size:.9rem;
+  outline:none;transition:all .18s;margin-bottom:.65rem}
+.addr-in:last-child{margin-bottom:0}
+.addr-in:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(76,142,247,.1)}
+.addr-in::placeholder{color:var(--fg4)}
+.addr-row{display:flex;gap:9px}
+.addr-row .addr-in{margin-bottom:0}
+
+/* note frais */
+.frais-note{display:none;align-items:center;gap:8px;
+  background:rgba(76,142,247,.07);border:1px solid rgba(76,142,247,.15);
+  border-radius:10px;padding:.65rem 1rem;font-size:.78rem;color:var(--fg3);margin-bottom:.85rem}
+.frais-note.show{display:flex}
+
+/* paypal btn */
+.paypal-btn{width:100%;background:#0070ba;color:#fff;border:none;padding:14px;
+  border-radius:var(--r2);font-family:var(--font);font-weight:800;font-size:.95rem;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:.5rem}
+.paypal-btn:hover{background:#005ea6;transform:translateY(-1px);box-shadow:0 10px 28px rgba(0,112,186,.35)}
+.paypal-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.pp-logo{font-size:1.1rem}
 </style>
 </head>
 <body>
@@ -356,7 +409,7 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
 <div class="auth-wrap" id="authWrap">
   <div class="auth-card">
     <div class="auth-logo"><em>Puff</em>Shop</div>
-    <div class="auth-tagline">Louviers · Tourville-la-Rivière · Paiement à la remise</div>
+    <div class="auth-tagline">Louviers · Tourville-la-Rivière · Livraison France</div>
     <div class="banned-box" id="bannedBox">🚫 Compte banni — contacte-nous.</div>
     <div class="auth-tabs">
       <button class="atab on" id="tLogin" onclick="switchTab('login')">Connexion</button>
@@ -416,7 +469,8 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
       <span class="pill purple">Spleen / PTC — 15€ · boîte 70€</span>
       <span class="pill">📍 27400 Louviers</span>
       <span class="pill">📍 76410 Tourville-la-Rivière</span>
-      <span class="pill">💸 Paiement à la remise</span>
+      <span class="pill">💸 Retrait gratuit · paiement remise</span>
+      <span class="pill" style="border-color:rgba(76,142,247,.3);color:var(--blue);background:rgba(76,142,247,.07)">🚚 Livraison France dès 5€ · PayPal</span>
     </div>
   </section>
 
@@ -434,7 +488,7 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
   <div class="cat-wrap"><div id="catOut"></div></div>
 
   <section class="pickup-sec">
-    <div class="sec-div"><div class="sec-div-line"></div><span class="sec-div-label">Points de retrait</span><div class="sec-div-line"></div></div>
+    <div class="sec-div"><div class="sec-div-line"></div><span class="sec-div-label">Retrait & Livraison</span><div class="sec-div-line"></div></div>
     <div class="pickup-grid">
       <div class="pickup-card">
         <div class="pickup-ico">📍</div>
@@ -452,9 +506,17 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
           <div class="pickup-note">✔ Retrait en main propre · Paiement à la remise</div>
         </div>
       </div>
+      <div class="pickup-card" style="border-color:rgba(76,142,247,.2)">
+        <div class="pickup-ico" style="background:rgba(76,142,247,.1);border-color:rgba(76,142,247,.2);color:var(--blue)">🚚</div>
+        <div>
+          <div class="pickup-zone" style="color:var(--blue)">Toute la France</div>
+          <div class="pickup-city">Livraison à domicile · Colissimo / Mondial Relay</div>
+          <div class="pickup-note" style="color:var(--blue)">💳 Paiement PayPal en ligne · +5€ de frais</div>
+        </div>
+      </div>
     </div>
   </section>
-  <footer>© 2025 PuffShop — 27400 Louviers · 76410 Tourville-la-Rivière — Paiement à la remise</footer>
+  <footer>© 2025 PuffShop — 27400 Louviers · 76410 Tourville-la-Rivière · Livraison France</footer>
 </div>
 
 <!-- TASKBAR -->
@@ -490,21 +552,49 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
   <div class="order-sheet">
     <div id="orderForm">
       <h2>Finaliser</h2>
-      <div style="font-family:var(--font);font-size:.7rem;font-weight:800;color:var(--fg3);letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem">Zone de retrait</div>
-      <div class="zone-btns">
+
+      <!-- CHOIX LIVRAISON -->
+      <div style="font-family:var(--font);font-size:.7rem;font-weight:800;color:var(--fg3);letter-spacing:1px;text-transform:uppercase;margin-bottom:.75rem">Mode de livraison</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem">
+
         <div class="zone-opt on" id="zLouv" onclick="setZone('louviers')">
           <div class="zone-radio"></div>
           <span class="zone-ico">📍</span>
-          <span class="zone-name">27400 — Louviers</span>
+          <div style="flex:1;min-width:0">
+            <div class="zone-name">27400 — Louviers</div>
+            <div style="font-size:.73rem;color:var(--fg3);margin-top:1px">Retrait en main propre · Paiement à la remise</div>
+          </div>
           <span class="zone-free">Gratuit</span>
         </div>
+
         <div class="zone-opt" id="zTour" onclick="setZone('tourville')">
           <div class="zone-radio"></div>
           <span class="zone-ico">📍</span>
-          <span class="zone-name">76410 — Tourville-la-Rivière</span>
+          <div style="flex:1;min-width:0">
+            <div class="zone-name">76410 — Tourville-la-Rivière</div>
+            <div style="font-size:.73rem;color:var(--fg3);margin-top:1px">Retrait en main propre · Paiement à la remise</div>
+          </div>
           <span class="zone-free">Gratuit</span>
         </div>
+
+        <div class="zone-opt" id="zFrance" onclick="setZone('france')" style="border-color:rgba(76,142,247,.25)">
+          <div class="zone-radio" style="border-color:rgba(76,142,247,.4)"></div>
+          <span class="zone-ico">🚚</span>
+          <div style="flex:1;min-width:0">
+            <div class="zone-name" style="color:var(--blue)">Toute la France</div>
+            <div style="font-size:.73rem;color:var(--fg3);margin-top:1px">Livraison à domicile · Paiement PayPal en ligne</div>
+          </div>
+          <span style="font-family:var(--mono);font-weight:800;font-size:.85rem;color:var(--blue);white-space:nowrap">+5€</span>
+          <span style="position:absolute;top:-1px;right:13px;background:var(--blue);color:#fff;font-size:.56rem;font-weight:800;padding:3px 9px;border-radius:0 0 8px 8px;letter-spacing:.5px;font-family:var(--font)">NOUVEAU</span>
+        </div>
       </div>
+
+      <!-- NOTE FRAIS (visible si France) -->
+      <div id="fraisNote" style="display:none;align-items:center;gap:8px;background:rgba(76,142,247,.07);border:1px solid rgba(76,142,247,.15);border-radius:10px;padding:.65rem 1rem;font-size:.78rem;color:var(--fg3);margin-bottom:.9rem">
+        🚚 <span>+5€ de frais de livraison · Tu seras redirigé vers <strong style="color:var(--blue)">PayPal</strong> pour payer</span>
+      </div>
+
+      <!-- CONTACT (toujours visible) -->
       <div class="contact-box">
         <div class="contact-box-title">📱 Comment te joindre ?</div>
         <div class="contact-row"><span class="contact-ico">📞</span><input class="contact-in" type="tel" id="oPhone" placeholder="06 xx xx xx xx"></div>
@@ -512,6 +602,18 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
         <div class="contact-row"><span class="contact-ico">👻</span><input class="contact-in" type="text" id="oSnap" placeholder="Ton pseudo Snapchat"></div>
         <div class="contact-note">Au moins un moyen de contact obligatoire</div>
       </div>
+
+      <!-- ADRESSE (visible si France) -->
+      <div id="addrBlock" style="display:none;background:var(--s2);border:1px solid rgba(76,142,247,.18);border-radius:var(--r2);padding:1rem 1.1rem;margin-bottom:1rem">
+        <div style="font-family:var(--font);font-size:.7rem;font-weight:800;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:.85rem">📦 Adresse de livraison</div>
+        <input id="addrNom" placeholder="Prénom et Nom" style="width:100%;background:var(--s3);border:1.5px solid var(--b2);color:var(--fg);border-radius:10px;padding:11px 13px;font-family:var(--body);font-size:.9rem;outline:none;transition:all .18s;margin-bottom:.65rem;display:block">
+        <input id="addrRue" placeholder="Numéro et rue" style="width:100%;background:var(--s3);border:1.5px solid var(--b2);color:var(--fg);border-radius:10px;padding:11px 13px;font-family:var(--body);font-size:.9rem;outline:none;transition:all .18s;margin-bottom:.65rem;display:block">
+        <div style="display:flex;gap:9px">
+          <input id="addrCP" placeholder="Code postal" style="flex:1;background:var(--s3);border:1.5px solid var(--b2);color:var(--fg);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:.9rem;outline:none;transition:all .18s">
+          <input id="addrVille" placeholder="Ville" style="flex:2;background:var(--s3);border:1.5px solid var(--b2);color:var(--fg);border-radius:10px;padding:11px 13px;font-family:var(--body);font-size:.9rem;outline:none;transition:all .18s">
+        </div>
+      </div>
+
       <div class="field">
         <label>Message (optionnel)</label>
         <textarea id="oMsg" rows="2" style="width:100%;background:var(--s2);border:1.5px solid var(--b2);color:var(--fg);border-radius:var(--r2);padding:11px 14px;font-family:var(--body);font-size:.9rem;outline:none;resize:none;transition:all .18s" placeholder="Disponible à partir de…"></textarea>
@@ -526,7 +628,7 @@ footer{border-top:1px solid var(--b1);text-align:center;padding:1.5rem 2rem;font
       <span class="sico">🎉</span>
       <h3>C'est commandé !</h3>
       <p id="successTxt"></p>
-      <p style="margin-top:8px;color:var(--fg3)">On te contacte pour fixer le retrait 👍</p>
+      <p style="margin-top:8px;color:var(--fg3)" id="successSub">On te contacte pour fixer le retrait 👍</p>
       <button class="btn-send" style="margin-top:1.5rem;width:100%" onclick="closeAll()">Fermer</button>
     </div>
   </div>
@@ -593,9 +695,10 @@ const tickItems=[
   "28K <strong>15€</strong> · boîte <strong>85€</strong>",
   "🔥 100K <s style='opacity:.4'>45€</s> → <strong>30€ −33%</strong> · boîte <strong>120€</strong>",
   "Spleen / PTC <strong>15€</strong> · boîte <strong>70€</strong>",
-  "📍 27400 Louviers",
-  "📍 76410 Tourville-la-Rivière",
-  "💸 Paiement à la remise",
+  "📍 27400 Louviers · Retrait gratuit",
+  "📍 76410 Tourville-la-Rivière · Retrait gratuit",
+  "🚚 Livraison France dès <strong>+5€</strong> · Paiement PayPal",
+  "💸 Retrait = paiement à la remise",
 ];
 function buildTicker(){
   const items=tickItems.map(t=>`<span class="tick-item">${t}<span class="dot"></span></span>`).join('');
@@ -825,11 +928,54 @@ function renderCart(){
 window.chQty=(k,d)=>{const i=cart.findIndex(x=>x.k===k);if(i<0)return;cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateBadge();renderCart();};
 
 /* ORDER */
+const PAYPAL_ME = 'https://www.paypal.me/sounear';
+
 window.setZone=z=>{
   zone=z;
-  document.getElementById('zLouv').classList.toggle('on',z==='louviers');
-  document.getElementById('zTour').classList.toggle('on',z==='tourville');
+  ['zLouv','zTour','zFrance'].forEach(id=>{
+    document.getElementById(id).classList.remove('on');
+    // reset radio border
+    document.getElementById(id).querySelector('.zone-radio').style.borderColor='';
+    document.getElementById(id).querySelector('.zone-radio').style.background='';
+  });
+  const isFrance=z==='france';
+  // activer le bon
+  if(isFrance){
+    const el=document.getElementById('zFrance');
+    el.style.borderColor='var(--blue)';
+    el.style.background='rgba(76,142,247,.08)';
+    const r=el.querySelector('.zone-radio');
+    r.style.borderColor='var(--blue)';r.style.background='var(--blue)';
+  }else{
+    document.getElementById(z==='louviers'?'zLouv':'zTour').classList.add('on');
+  }
+  // afficher/masquer blocs France
+  document.getElementById('fraisNote').style.display=isFrance?'flex':'none';
+  document.getElementById('addrBlock').style.display=isFrance?'block':'none';
+  // mettre à jour le résumé
+  updateSumBox();
 };
+
+function updateSumBox(){
+  const frais=zone==='france'?5:0;
+  const sous=cart.reduce((s,x)=>s+x.qty*x.prix,0);
+  const total=sous+frais;
+  const lines=cart.map(i=>`${i.ico} ${i.nom} ×${i.qty} = ${i.qty*i.prix}€`).join('<br>');
+  const fraisLine=frais>0?`<br>🚚 Frais livraison = <strong style="color:var(--blue)">+5€</strong>`:'';
+  const paiement=zone==='france'
+    ?`💳 Total : <strong style="color:var(--blue)">${total}€</strong> — paiement PayPal`
+    :`💰 Total : <strong style="color:var(--lime)">${total}€</strong> — paiement à la remise`;
+  document.getElementById('sumBox').innerHTML=lines+fraisLine+`<br>${paiement}`;
+  // bouton adaptatif
+  const btn=document.getElementById('sendBtn');
+  if(zone==='france'){
+    btn.style.background='#0070ba';btn.style.color='#fff';
+    btn.textContent='Payer avec PayPal →';
+  }else{
+    btn.style.background='';btn.style.color='';
+    btn.textContent='Confirmer ✓';
+  }
+}
 
 window.openOrder=()=>{
   closeCart();
@@ -837,11 +983,7 @@ window.openOrder=()=>{
   document.getElementById('orderForm').style.display='block';
   document.getElementById('successWrap').style.display='none';
   document.getElementById('sendBtn').disabled=false;
-  document.getElementById('sendBtn').textContent='Confirmer ✓';
   setZone('louviers');
-  const lines=cart.map(i=>`${i.ico} ${i.nom} ×${i.qty} = ${i.qty*i.prix}€`).join('<br>');
-  const total=cart.reduce((s,x)=>s+x.qty*x.prix,0);
-  document.getElementById('sumBox').innerHTML=lines+`<br><strong style="color:var(--lime)">💰 Total : ${total}€ — paiement à la remise</strong>`;
 };
 window.closeOrder=()=>document.getElementById('orderModal').classList.remove('open');
 window.closeAll=()=>{closeOrder();closeCart();cart=[];updateBadge();};
@@ -850,27 +992,65 @@ window.confirmOrder=async()=>{
   const phone=document.getElementById('oPhone').value.trim();
   const snap=document.getElementById('oSnap').value.trim();
   if(!phone&&!snap){toast('⚠️ Téléphone ou Snap obligatoire !','err');return;}
+
+  // Validation adresse si France
+  if(zone==='france'){
+    const nom=document.getElementById('addrNom').value.trim();
+    const rue=document.getElementById('addrRue').value.trim();
+    const cp=document.getElementById('addrCP').value.trim();
+    const ville=document.getElementById('addrVille').value.trim();
+    if(!nom||!rue||!cp||!ville){toast('⚠️ Adresse complète obligatoire !','err');return;}
+  }
+
   if(await isBanned(user.email)){toast('🚫 Compte banni','err');doLogout();return;}
-  const btn=document.getElementById('sendBtn');btn.disabled=true;btn.textContent='Envoi…';
+  const btn=document.getElementById('sendBtn');btn.disabled=true;
+  btn.textContent=zone==='france'?'Enregistrement…':'Envoi…';
+
   try{
+    const frais=zone==='france'?5:0;
+    const sous=cart.reduce((s,x)=>s+x.qty*x.prix,0);
+    const total=sous+frais;
+    const nb=cart.reduce((s,x)=>s+x.qty,0);
+    const zoneLabel=zone==='louviers'?'27400 Louviers':zone==='tourville'?'76410 Tourville-la-Rivière':'Livraison France';
+    const adresse=zone==='france'
+      ?`${document.getElementById('addrNom').value} — ${document.getElementById('addrRue').value}, ${document.getElementById('addrCP').value} ${document.getElementById('addrVille').value}`:'';
+
+    // Décrémenter stock
     const ch={};
     cart.forEach(it=>{const c=stockQty(it.stockKey);if(typeof stock[it.stockKey]==='number')ch[it.stockKey]=Math.max(0,c-it.qty);});
     if(Object.keys(ch).length)await saveStock(ch);
-    const total=cart.reduce((s,x)=>s+x.qty*x.prix,0);
-    const nb=cart.reduce((s,x)=>s+x.qty,0);
-    const zoneLabel=zone==='louviers'?'27400 Louviers':'76410 Tourville-la-Rivière';
+
+    // Enregistrer commande Firestore
     await addDoc(collection(db,'orders'),{
       date:new Date().toLocaleString('fr-FR'),timestamp:Date.now(),
       name:user.prenom,phone:phone||user.phone||'',snap:snap||user.snap||'',
-      email:user.email,ip:user.email,zone:zoneLabel,
+      email:user.email,ip:user.email,zone:zoneLabel,adresse,
+      modelivraison:zone==='france'?'livraison_france':'retrait',
+      fraislivraison:frais,
       items:cart.map(i=>({nom:i.nom,icon:i.ico,qty:i.qty,prix:i.prix,total:i.qty*i.prix})),
-      total,nb,msg:document.getElementById('oMsg').value.trim(),status:'nouveau'
+      total,nb,msg:document.getElementById('oMsg').value.trim(),
+      status:zone==='france'?'paiement_paypal':'nouveau'
     });
-    document.getElementById('orderForm').style.display='none';
-    document.getElementById('successTxt').textContent=`Merci ${user.prenom} ! ${total}€ pour ${nb} article${nb>1?'s':''} — Retrait à ${zoneLabel}`;
-    document.getElementById('successWrap').style.display='block';
-    render();
-  }catch(e){console.error(e);toast('❌ Erreur réseau','err');btn.disabled=false;btn.textContent='Confirmer ✓';}
+
+    if(zone==='france'){
+      // Redirection PayPal avec montant exact
+      const note=encodeURIComponent(`PuffShop - Commande ${user.prenom} - ${nb} article${nb>1?'s':''}`);
+      const paypalUrl=`${PAYPAL_ME}/${total}EUR?description=${note}`;
+      document.getElementById('orderForm').style.display='none';
+      document.getElementById('successTxt').textContent=`Commande enregistrée ! Tu vas être redirigé vers PayPal pour payer ${total}€.`;
+      document.getElementById('successSub').textContent='Une fois le paiement fait, on expédie ta commande 📦';
+      document.getElementById('successWrap').style.display='block';
+      render();cart=[];updateBadge();
+      // Redirection PayPal après 2.5s
+      setTimeout(()=>{ window.open(paypalUrl,'_blank'); },2500);
+    }else{
+      document.getElementById('orderForm').style.display='none';
+      document.getElementById('successTxt').textContent=`Merci ${user.prenom} ! ${total}€ pour ${nb} article${nb>1?'s':''} — Retrait à ${zoneLabel}`;
+      document.getElementById('successSub').textContent='On te contacte pour fixer le retrait 👍';
+      document.getElementById('successWrap').style.display='block';
+      render();cart=[];updateBadge();
+    }
+  }catch(e){console.error(e);toast('❌ Erreur réseau','err');btn.disabled=false;btn.textContent=zone==='france'?'Payer avec PayPal →':'Confirmer ✓';}
 };
 
 /* TOAST */
